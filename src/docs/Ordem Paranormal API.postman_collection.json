@@ -1,0 +1,224 @@
+{
+  "info": {
+    "_postman_id": "92a0169c-eeed-4a94-b600-5fc75116d69f",
+    "name": "Ordem Paranormal API",
+    "description": "API desenvolvida para simular um sistema interno da agência Ordo Realitas, permitindo o gerenciamento e consulta de informações operacionais como agentes, equipes, missões e elementos paranormais.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "44508112",
+    "_collection_link": "https://go.postman.co/collection/44508112-92a0169c-eeed-4a94-b600-5fc75116d69f?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "GetAll Agents",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/agents",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "agents"
+          ]
+        },
+        "description": "Retorna todos os agentes cadastrados."
+      },
+      "response": []
+    },
+    {
+      "name": "Get agent by id",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "url": {
+          "raw": "{{base_url}}/agents/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "agents",
+            ""
+          ]
+        },
+        "description": "Retorna um agente pelo ID."
+      },
+      "response": []
+    },
+    {
+      "name": "Create a new agent",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"id\": 5,\r\n  \"name\": \"Karen\",\r\n  \"codename\": \"Caveira\",\r\n  \"level\": \"recruit\",\r\n  \"especialidade\": \"combatant\",\r\n  \"status\": \"active\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/agents/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "agents",
+            ""
+          ]
+        },
+        "description": "Cria um novo agente."
+      },
+      "response": []
+    },
+    {
+      "name": "Update agent",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/agents/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "agents",
+            ""
+          ]
+        },
+        "description": "Atualiza completamente um agente."
+      },
+      "response": []
+    },
+    {
+      "name": "Delete agent",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/agents/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "agents",
+            ""
+          ]
+        },
+        "description": "Remove um agente."
+      },
+      "response": []
+    },
+    {
+      "name": "GetAll Teams",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/team",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "team"
+          ]
+        },
+        "description": "Retorna todas as equipes cadastradas."
+      },
+      "response": []
+    },
+    {
+      "name": "Get team by id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/team/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "team",
+            ""
+          ]
+        },
+        "description": "Retorna uma equipe pelo ID."
+      },
+      "response": []
+    },
+    {
+      "name": "Create a new team",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[\r\n  {\r\n    \"id\": 1,\r\n    \"name\": \"Alpha\",\r\n    \"specialization\": \"investigation\",\r\n    \"status\": \"active\",\r\n    \"agentIds\": [1, 5]\r\n  }\r\n]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/team",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "team"
+          ]
+        },
+        "description": "Cria uma nova equipe."
+      },
+      "response": []
+    },
+    {
+      "name": "Update team",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/team/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "team",
+            ""
+          ]
+        },
+        "description": "Atualiza completamente uma equipe."
+      },
+      "response": []
+    },
+    {
+      "name": "Delete team",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/team/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "team",
+            ""
+          ]
+        },
+        "description": "Remove uma equipe."
+      },
+      "response": []
+    }
+  ]
+}
