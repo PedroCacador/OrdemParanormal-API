@@ -1,0 +1,27 @@
+export interface ParanormalObject {
+    id: number;
+    name: string;
+    classification: ObjectClassification;
+    effect: string;
+    dangerLevel: ObjectDangerLevel;
+    status: ObjectStatus;
+}
+
+export enum ObjectClassification {
+    cursed = "cursed",
+    artifact = "artifact",
+    relic = "relic"
+}
+
+export enum ObjectDangerLevel {
+    low = "low",
+    medium = "medium",
+    high = "high",
+    extreme = "extreme"
+}
+
+export enum ObjectStatus {
+    secured = "secured",
+    inUse = "inUse",
+    missing = "missing"
+}

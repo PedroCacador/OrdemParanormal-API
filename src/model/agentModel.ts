@@ -9,20 +9,20 @@ export interface Agent {
 }
 
 export enum AgentLevel {
-    recruit,
-    operator,
-    veteran
+    recruit = "recruit",
+    operator = "operator",
+    veteran = "veteran"
 }
 
 export enum AgentSpecialty {
-    combatant,
-    specialist,
-    occultist
+    combatant = "combatant",
+    specialist = "specialist",
+    occultist = "occultist"
 }
 
 export enum AgentStatus {
-    active,
-    onLeave,
-    missing,
-    dead
+    active = "active",
+    onLeave = "onLeave",
+    missing = "missing",
+    dead = "dead"
 }

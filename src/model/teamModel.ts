@@ -1,19 +1,19 @@
-export interface Team { 
+export interface Team {
     id: number;
     name: string;
-    specialization: Specialization;
-    teamStatus: teamStatus;
+    specialization: TeamSpecialization;
+    status: TeamStatus;
     agentIds?: number[];
 }
 
-enum Specialization {
-    containment,
-    investigation,
-    suport
+export enum TeamSpecialization {
+    containment = "containment",
+    investigation = "investigation",
+    support = "support"
 }
 
-enum teamStatus {
-    active,
-    dissolved,
-    inactive
+export enum TeamStatus {
+    active = "active",
+    dissolved = "dissolved",
+    inactive = "inactive"
 }

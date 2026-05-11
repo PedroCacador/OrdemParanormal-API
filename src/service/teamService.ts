@@ -1,41 +1,34 @@
 import { Team } from "../model/teamModel";
-import { teams } from "../data/teamsData";
+import { TeamRepository } from "../repository/teamRepository";
 
 export class TeamService {
+    private teamRepository: TeamRepository;
 
-    getAll(): Team[] {
-        return teams;
+    constructor() {
+        this.teamRepository = new TeamRepository();
     }
 
-    getById(id: number) {
-        return teams.find(t => t.id === id);
+    public async getAll(): Promise<Team[]> {
+        return await this.teamRepository.getAll();
     }
 
-    create(team: Team) {
-        teams.push(team);
-        return team;
+    public async getById(id: number): Promise<Team | undefined> {
+        return await this.teamRepository.getById(id);
     }
 
-    update(id: number, updatedTeam: Team) {
-        const index = teams.findIndex(t => t.id === id);
-
-        if (index === -1) {
-            return undefined;
-        }
-
-        teams[index] = updatedTeam;
-
-        return teams[index];
+    public async create(teamData: any): Promise<Team> {
+        return await this.teamRepository.create(teamData);
     }
 
-    delete(id: number): boolean {
-        const index = teams.findIndex(t => t.id === id);
+    public async update(id: number, teamData: any): Promise<Team | undefined> {
+        return await this.teamRepository.update(id, teamData);
+    }
 
-        if (index === -1) {
-            return false;
-        }
+    public async patch(id: number, teamData: any): Promise<Team | undefined> {
+        return await this.teamRepository.patch(id, teamData);
+    }
 
-        teams.splice(index, 1);
-        return true;
+    public async delete(id: number): Promise<boolean> {
+        return await this.teamRepository.delete(id);
     }
 }

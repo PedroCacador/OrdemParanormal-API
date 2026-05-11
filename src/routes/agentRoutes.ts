@@ -8,6 +8,7 @@ router.get("/agents", controller.getAll);
 router.get("/agents/:id", controller.getById);
 router.post("/agents", controller.create);
 router.put("/agents/:id", controller.update);
+router.patch("/agents/:id", controller.patch);
 router.delete("/agents/:id", controller.delete);
 
 export default router;

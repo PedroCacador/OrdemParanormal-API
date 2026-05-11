@@ -1,37 +1,68 @@
-import { Agent } from "../model/agentModel"
-
-let agents: Agent[] = [];
+import { Agent, AgentStatus } from "../model/agentModel";
+import { AgentRepository } from "../repository/agentRepository";
 
 export class AgentService {
-    getAll(): Agent[] {
-        return agents;
-    }
-    getById(id: number) {
-        return agents.find(a => a.id === id);
-    }
-    create(agent: Agent) {
-        agents.push(agent);
-        return agent;
-    }
-    update(id: number, updatedAgent: Agent) {
-        const index = agents.findIndex(a => a.id === id);
+    private agentRepository: AgentRepository;
 
-        if (index === -1) {
+    constructor() {
+        this.agentRepository = new AgentRepository();
+    }
+
+    public async getAll(): Promise<Agent[]> {
+        return await this.agentRepository.getAll();
+    }
+
+    public async getById(id: number): Promise<Agent | undefined> {
+        return await this.agentRepository.getById(id);
+    }
+
+    public async create(agentData: any): Promise<Agent> {
+        if (agentData.status === AgentStatus.active) {
+            if (agentData.teamId === undefined || agentData.teamId === null) {
+                throw new Error("Violação de Regra: Um agente ativo precisa estar em uma equipe.");
+            }
+        }
+
+        return await this.agentRepository.create(agentData);
+    }
+
+    public async update(id: number, agentData: any): Promise<Agent | undefined> {
+        if (agentData.status === AgentStatus.active) {
+            if (agentData.teamId === undefined || agentData.teamId === null) {
+                throw new Error("Violação de Regra: Um agente ativo precisa estar em uma equipe.");
+            }
+        }
+
+        return await this.agentRepository.update(id, agentData);
+    }
+
+    public async patch(id: number, agentData: any): Promise<Agent | undefined> {
+        let agentOriginal = await this.agentRepository.getById(id);
+
+        if (agentOriginal === undefined) {
             return undefined;
         }
 
-        agents[index] = updatedAgent;
-
-        return agents[index];
-    }
-    delete(id: number): boolean {
-        const index = agents.findIndex(a => a.id === id);
-
-        if (index === -1) {
-            return false;
+        let finalStatus = agentOriginal.status;
+        if (agentData.status !== undefined) {
+            finalStatus = agentData.status;
         }
-        agents.splice(index, 1);
 
-        return true;
+        let finalTeamId = agentOriginal.teamId;
+        if (agentData.teamId !== undefined) {
+            finalTeamId = agentData.teamId;
+        }
+
+        if (finalStatus === AgentStatus.active) {
+            if (finalTeamId === undefined || finalTeamId === null) {
+                throw new Error("Violação de Regra: Um agente ativo precisa estar em uma equipe.");
+            }
+        }
+
+        return await this.agentRepository.patch(id, agentData);
+    }
+
+    public async delete(id: number): Promise<boolean> {
+        return await this.agentRepository.delete(id);
     }
 }
