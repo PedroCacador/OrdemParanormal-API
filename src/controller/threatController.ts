@@ -6,7 +6,10 @@ const threatService = new ThreatService();
 export class ThreatController {
 
     public async getAll(req: Request, res: Response) {
-        const threats = await threatService.getAll();
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        
+        const threats = await threatService.getAll(page, limit);
         return res.json(threats);
     }
 

@@ -6,7 +6,10 @@ const teamService = new TeamService();
 export class TeamController {
 
     public async getAll(req: Request, res: Response) {
-        const teams = await teamService.getAll();
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        
+        const teams = await teamService.getAll(page, limit);
         return res.json(teams);
     }
 

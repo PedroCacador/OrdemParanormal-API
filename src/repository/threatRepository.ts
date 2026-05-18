@@ -3,8 +3,13 @@ import database from "../database";
 
 export class ThreatRepository {
 
-    public async getAll(): Promise<Threat[]> {
-        return await database("threats").select("*");
+    public async getAll(page: number, limit: number): Promise<Threat[]> {
+        const threats = await database("threats")
+            .select("*")
+            .limit(limit)
+            .offset((page - 1) * limit);
+            
+        return threats;
     }
 
     public async getById(id: number): Promise<Threat | undefined> {

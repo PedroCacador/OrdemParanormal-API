@@ -8,8 +8,8 @@ export class AgentService {
         this.agentRepository = new AgentRepository();
     }
 
-    public async getAll(): Promise<Agent[]> {
-        return await this.agentRepository.getAll();
+    public async getAll(page: number, limit: number): Promise<Agent[]> {
+        return await this.agentRepository.getAll(page, limit);
     }
 
     public async getById(id: number): Promise<Agent | undefined> {

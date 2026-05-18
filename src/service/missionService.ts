@@ -15,8 +15,8 @@ export class MissionService {
         this.threatRepository = new ThreatRepository();
     }
 
-    public async getAll(): Promise<Mission[]> {
-        return await this.missionRepository.getAll();
+    public async getAll(page: number, limit: number): Promise<Mission[]> {
+        return await this.missionRepository.getAll(page, limit);
     }
 
     public async getById(id: number): Promise<Mission | undefined> {

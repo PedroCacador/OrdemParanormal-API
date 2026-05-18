@@ -8,8 +8,8 @@ export class ParanormalObjectService {
         this.paranormalObjectRepository = new ParanormalObjectRepository();
     }
 
-    public async getAll(): Promise<ParanormalObject[]> {
-        return await this.paranormalObjectRepository.getAll();
+    public async getAll(page: number, limit: number): Promise<ParanormalObject[]> {
+        return await this.paranormalObjectRepository.getAll(page, limit);
     }
 
     public async getById(id: number): Promise<ParanormalObject | undefined> {

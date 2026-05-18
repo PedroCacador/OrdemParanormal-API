@@ -8,8 +8,8 @@ export class TeamService {
         this.teamRepository = new TeamRepository();
     }
 
-    public async getAll(): Promise<Team[]> {
-        return await this.teamRepository.getAll();
+    public async getAll(page: number, limit: number): Promise<Team[]> {
+        return await this.teamRepository.getAll(page, limit);
     }
 
     public async getById(id: number): Promise<Team | undefined> {

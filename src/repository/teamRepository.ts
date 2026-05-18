@@ -3,8 +3,13 @@ import database from "../database";
 
 export class TeamRepository {
 
-    public async getAll(): Promise<Team[]> {
-        return await database("teams").select("*");
+    public async getAll(page: number, limit: number): Promise<Team[]> {
+        const teams = await database("teams")
+            .select("*")
+            .limit(limit)
+            .offset((page - 1) * limit);
+            
+        return teams;
     }
 
     public async getById(id: number): Promise<Team | undefined> {

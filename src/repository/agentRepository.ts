@@ -3,8 +3,12 @@ import database from "../database";
 
 export class AgentRepository {
 
-    public async getAll(): Promise<Agent[]> {
-        const agents = await database("agents").select("*");
+    public async getAll(page: number, limit: number): Promise<Agent[]> {
+        const agents = await database("agents")
+            .select("*")
+            .limit(limit)
+            .offset((page - 1) * limit);
+            
         return agents;
     }
 

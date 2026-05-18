@@ -8,8 +8,8 @@ export class ThreatService {
         this.threatRepository = new ThreatRepository();
     }
 
-    public async getAll(): Promise<Threat[]> {
-        return await this.threatRepository.getAll();
+    public async getAll(page: number, limit: number): Promise<Threat[]> {
+        return await this.threatRepository.getAll(page, limit);
     }
 
     public async getById(id: number): Promise<Threat | undefined> {

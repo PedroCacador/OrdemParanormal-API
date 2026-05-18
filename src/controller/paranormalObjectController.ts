@@ -6,7 +6,10 @@ const paranormalObjectService = new ParanormalObjectService();
 export class ParanormalObjectController {
 
     public async getAll(req: Request, res: Response) {
-        const objects = await paranormalObjectService.getAll();
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        
+        const objects = await paranormalObjectService.getAll(page, limit);
         return res.json(objects);
     }
 

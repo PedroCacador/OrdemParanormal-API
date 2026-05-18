@@ -3,8 +3,13 @@ import database from "../database";
 
 export class MissionRepository {
 
-    public async getAll(): Promise<Mission[]> {
-        return await database("missions").select("*");
+    public async getAll(page: number, limit: number): Promise<Mission[]> {
+        const missions = await database("missions")
+            .select("*")
+            .limit(limit)
+            .offset((page - 1) * limit);
+            
+        return missions;
     }
 
     public async getById(id: number): Promise<Mission | undefined> {

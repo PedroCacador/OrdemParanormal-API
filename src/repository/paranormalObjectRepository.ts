@@ -3,8 +3,13 @@ import database from "../database";
 
 export class ParanormalObjectRepository {
 
-    public async getAll(): Promise<ParanormalObject[]> {
-        return await database("paranormal_objects").select("*");
+    public async getAll(page: number, limit: number): Promise<ParanormalObject[]> {
+        const paranormalObjects = await database("paranormal_objects")
+            .select("*")
+            .limit(limit)
+            .offset((page - 1) * limit);
+            
+        return paranormalObjects;
     }
 
     public async getById(id: number): Promise<ParanormalObject | undefined> {
