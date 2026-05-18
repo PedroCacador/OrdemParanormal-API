@@ -4,8 +4,6 @@ export interface Mission {
     description: string;
     dangerLevel: MissionDangerLevel;
     status: MissionStatus;
-    startDate: Date;
-    endDate?: Date;
     teamIds: number[];
     threatIds: number[];
 }

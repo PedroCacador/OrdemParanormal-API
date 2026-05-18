@@ -4,6 +4,9 @@ export async function up(knex: Knex): Promise<void> {
     return knex.schema.createTable("agents", (table) => {
         table.increments("id").primary();
         table.string("name").notNullable();
+        table.string("codename").notNullable();
+        table.string("level").notNullable();
+        table.string("specialty").notNullable();
         table.integer("teamId").nullable();
         table.string("status").notNullable();
     });

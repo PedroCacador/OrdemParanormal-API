@@ -17,21 +17,21 @@ export class AgentService {
     }
 
     public async create(agentData: any): Promise<Agent> {
-        if (agentData.status === AgentStatus.active) {
-            if (agentData.teamId === undefined || agentData.teamId === null) {
-                throw new Error("Violação de Regra: Um agente ativo precisa estar em uma equipe.");
-            }
-        }
+        // if (agentData.status === AgentStatus.active) {
+        //     if (agentData.teamId === undefined || agentData.teamId === null) {
+        //         throw new Error("Violação de Regra: Um agente ativo precisa estar em uma equipe.");
+        //     }
+        // } PROVISÓRIO FI!
 
         return await this.agentRepository.create(agentData);
     }
 
     public async update(id: number, agentData: any): Promise<Agent | undefined> {
-        if (agentData.status === AgentStatus.active) {
-            if (agentData.teamId === undefined || agentData.teamId === null) {
-                throw new Error("Violação de Regra: Um agente ativo precisa estar em uma equipe.");
-            }
-        }
+        // if (agentData.status === AgentStatus.active) {
+        //     if (agentData.teamId === undefined || agentData.teamId === null) {
+        //         throw new Error("Violação de Regra: Um agente ativo precisa estar em uma equipe.");
+        //     }
+        // } PROVISÓRIO FI!
 
         return await this.agentRepository.update(id, agentData);
     }
@@ -53,11 +53,11 @@ export class AgentService {
             finalTeamId = agentData.teamId;
         }
 
-        if (finalStatus === AgentStatus.active) {
-            if (finalTeamId === undefined || finalTeamId === null) {
-                throw new Error("Violação de Regra: Um agente ativo precisa estar em uma equipe.");
-            }
-        }
+        // if (finalStatus === AgentStatus.active) {
+        //     if (finalTeamId === undefined || finalTeamId === null) {
+        //         throw new Error("Violação de Regra: Um agente ativo precisa estar em uma equipe.");
+        //     }
+        // }
 
         return await this.agentRepository.patch(id, agentData);
     }

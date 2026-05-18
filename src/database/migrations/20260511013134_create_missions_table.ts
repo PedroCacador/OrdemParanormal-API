@@ -7,8 +7,6 @@ export async function up(knex: Knex): Promise<void> {
         table.string("description").notNullable();
         table.string("dangerLevel").notNullable();
         table.string("status").notNullable();
-        table.dateTime("startDate").notNullable();
-        table.dateTime("endDate").nullable();
         table.json("teamIds").notNullable();
         table.json("threatIds").notNullable();
     });

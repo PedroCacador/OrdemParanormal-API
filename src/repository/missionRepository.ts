@@ -17,8 +17,6 @@ export class MissionRepository {
             description: missionData.description,
             dangerLevel: missionData.dangerLevel,
             status: missionData.status,
-            startDate: missionData.startDate,
-            endDate: missionData.endDate,
             teamIds: JSON.stringify(missionData.teamIds || []),
             threatIds: JSON.stringify(missionData.threatIds || [])
         });
@@ -40,8 +38,6 @@ export class MissionRepository {
             description: missionData.description,
             dangerLevel: missionData.dangerLevel,
             status: missionData.status,
-            startDate: missionData.startDate,
-            endDate: missionData.endDate,
             teamIds: JSON.stringify(missionData.teamIds || []),
             threatIds: JSON.stringify(missionData.threatIds || [])
         });
@@ -61,6 +57,7 @@ export class MissionRepository {
         if (dataToUpdate.threatIds !== undefined) {
             dataToUpdate.threatIds = JSON.stringify(dataToUpdate.threatIds);
         }
+
 
         const rowsUpdated = await database("missions").where({ id: id }).update(dataToUpdate);
 

@@ -2,223 +2,494 @@
   "info": {
     "_postman_id": "92a0169c-eeed-4a94-b600-5fc75116d69f",
     "name": "Ordem Paranormal API",
-    "description": "API desenvolvida para simular um sistema interno da agência Ordo Realitas, permitindo o gerenciamento e consulta de informações operacionais como agentes, equipes, missões e elementos paranormais.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "44508112",
-    "_collection_link": "https://go.postman.co/collection/44508112-92a0169c-eeed-4a94-b600-5fc75116d69f?source=collection_link"
+    "description": "API desenvolvida para simular um sistema interno da agência Ordo Realitas, permitindo o gerenciamento e consulta de informações operacionais como agentes, equipes, missões, ameaças e elementos paranormais.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "GetAll Agents",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{base_url}}/agents",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "agents"
-          ]
-        },
-        "description": "Retorna todos os agentes cadastrados."
-      },
-      "response": []
-    },
-    {
-      "name": "Get agent by id",
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "method": "GET",
-        "header": [],
-        "body": {
-          "mode": "formdata",
-          "formdata": []
-        },
-        "url": {
-          "raw": "{{base_url}}/agents/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "agents",
-            ""
-          ]
-        },
-        "description": "Retorna um agente pelo ID."
-      },
-      "response": []
-    },
-    {
-      "name": "Create a new agent",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n  \"id\": 5,\r\n  \"name\": \"Karen\",\r\n  \"codename\": \"Caveira\",\r\n  \"level\": \"recruit\",\r\n  \"especialidade\": \"combatant\",\r\n  \"status\": \"active\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
+      "name": "Agents",
+      "description": "Endpoints para gerenciamento de agentes",
+      "item": [
+        {
+          "name": "GetAll Agents",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/agents",
+              "host": ["{{base_url}}"],
+              "path": ["agents"]
+            },
+            "description": "Retorna todos os agentes cadastrados."
           }
         },
-        "url": {
-          "raw": "{{base_url}}/agents/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "agents",
-            ""
-          ]
-        },
-        "description": "Cria um novo agente."
-      },
-      "response": []
-    },
-    {
-      "name": "Update agent",
-      "request": {
-        "method": "PUT",
-        "header": [],
-        "url": {
-          "raw": "{{base_url}}/agents/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "agents",
-            ""
-          ]
-        },
-        "description": "Atualiza completamente um agente."
-      },
-      "response": []
-    },
-    {
-      "name": "Delete agent",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{base_url}}/agents/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "agents",
-            ""
-          ]
-        },
-        "description": "Remove um agente."
-      },
-      "response": []
-    },
-    {
-      "name": "GetAll Teams",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{base_url}}/team",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "team"
-          ]
-        },
-        "description": "Retorna todas as equipes cadastradas."
-      },
-      "response": []
-    },
-    {
-      "name": "Get team by id",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{base_url}}/team/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "team",
-            ""
-          ]
-        },
-        "description": "Retorna uma equipe pelo ID."
-      },
-      "response": []
-    },
-    {
-      "name": "Create a new team",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "[\r\n  {\r\n    \"id\": 1,\r\n    \"name\": \"Alpha\",\r\n    \"specialization\": \"investigation\",\r\n    \"status\": \"active\",\r\n    \"agentIds\": [1, 5]\r\n  }\r\n]",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
+        {
+          "name": "Get agent by id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/agents/:id",
+              "host": ["{{base_url}}"],
+              "path": ["agents", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Retorna um agente pelo ID."
           }
         },
-        "url": {
-          "raw": "{{base_url}}/team",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "team"
-          ]
+        {
+          "name": "Create a new agent",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Karen\",\n  \"codename\": \"Caveira\",\n  \"level\": \"recruit\",\n  \"specialty\": \"combatant\",\n  \"status\": \"active\",\n  \"teamId\": 1\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/agents",
+              "host": ["{{base_url}}"],
+              "path": ["agents"]
+            },
+            "description": "Cria um novo agente."
+          }
         },
-        "description": "Cria uma nova equipe."
-      },
-      "response": []
+        {
+          "name": "Update agent",
+          "request": {
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Karen\",\n  \"codename\": \"Caveira\",\n  \"level\": \"veteran\",\n  \"specialty\": \"combatant\",\n  \"status\": \"active\",\n  \"teamId\": 1\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/agents/:id",
+              "host": ["{{base_url}}"],
+              "path": ["agents", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Atualiza completamente um agente."
+          }
+        },
+        {
+          "name": "Patch agent",
+          "request": {
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"inactive\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/agents/:id",
+              "host": ["{{base_url}}"],
+              "path": ["agents", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Atualiza parcialmente um agente."
+          }
+        },
+        {
+          "name": "Delete agent",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/agents/:id",
+              "host": ["{{base_url}}"],
+              "path": ["agents", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Remove um agente."
+          }
+        }
+      ]
     },
     {
-      "name": "Update team",
-      "request": {
-        "method": "PUT",
-        "header": [],
-        "url": {
-          "raw": "{{base_url}}/team/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "team",
-            ""
-          ]
+      "name": "Teams",
+      "description": "Endpoints para gerenciamento de equipes",
+      "item": [
+        {
+          "name": "GetAll Teams",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/teams",
+              "host": ["{{base_url}}"],
+              "path": ["teams"]
+            },
+            "description": "Retorna todas as equipes cadastradas."
+          }
         },
-        "description": "Atualiza completamente uma equipe."
-      },
-      "response": []
+        {
+          "name": "Get team by id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/teams/:id",
+              "host": ["{{base_url}}"],
+              "path": ["teams", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Retorna uma equipe pelo ID."
+          }
+        },
+        {
+          "name": "Create a new team",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Alpha\",\n  \"specialization\": \"investigation\",\n  \"status\": \"active\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/teams",
+              "host": ["{{base_url}}"],
+              "path": ["teams"]
+            },
+            "description": "Cria uma nova equipe."
+          }
+        },
+        {
+          "name": "Update team",
+          "request": {
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Alpha\",\n  \"specialization\": \"combat\",\n  \"status\": \"active\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/teams/:id",
+              "host": ["{{base_url}}"],
+              "path": ["teams", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Atualiza completamente uma equipe."
+          }
+        },
+        {
+          "name": "Patch team",
+          "request": {
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"inactive\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/teams/:id",
+              "host": ["{{base_url}}"],
+              "path": ["teams", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Atualiza parcialmente uma equipe."
+          }
+        },
+        {
+          "name": "Delete team",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/teams/:id",
+              "host": ["{{base_url}}"],
+              "path": ["teams", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Remove uma equipe."
+          }
+        }
+      ]
     },
     {
-      "name": "Delete team",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{base_url}}/team/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "team",
-            ""
-          ]
+      "name": "Missions",
+      "description": "Endpoints para gerenciamento de missões",
+      "item": [
+        {
+          "name": "GetAll Missions",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/missions",
+              "host": ["{{base_url}}"],
+              "path": ["missions"]
+            },
+            "description": "Retorna todas as missões cadastradas."
+          }
         },
-        "description": "Remove uma equipe."
-      },
-      "response": []
+        {
+          "name": "Get mission by id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/missions/:id",
+              "host": ["{{base_url}}"],
+              "path": ["missions", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Retorna uma missão pelo ID."
+          }
+        },
+        {
+          "name": "Create a new mission",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"O Segredo na Ilha\",\n  \"description\": \"Investigar acontecimentos paranormais em uma ilha isolada.\",\n  \"dangerLevel\": \"high\",\n  \"status\": \"inProgress\",\n  \"teamIds\": [1],\n  \"threatIds\": []\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/missions",
+              "host": ["{{base_url}}"],
+              "path": ["missions"]
+            },
+            "description": "Cria uma nova missão."
+          }
+        },
+        {
+          "name": "Update mission",
+          "request": {
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"O Segredo na Ilha\",\n  \"description\": \"Investigar acontecimentos paranormais em uma ilha isolada.\",\n  \"dangerLevel\": \"high\",\n  \"status\": \"completed\",\n  \"teamIds\": [1],\n  \"threatIds\": []\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/missions/:id",
+              "host": ["{{base_url}}"],
+              "path": ["missions", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Atualiza completamente uma missão."
+          }
+        },
+        {
+          "name": "Patch mission",
+          "request": {
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"completed\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/missions/:id",
+              "host": ["{{base_url}}"],
+              "path": ["missions", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Atualiza parcialmente uma missão."
+          }
+        },
+        {
+          "name": "Delete mission",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/missions/:id",
+              "host": ["{{base_url}}"],
+              "path": ["missions", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Remove uma missão."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Threats",
+      "description": "Endpoints para gerenciamento de ameaças paranormais",
+      "item": [
+        {
+          "name": "GetAll Threats",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/threats",
+              "host": ["{{base_url}}"],
+              "path": ["threats"]
+            },
+            "description": "Retorna todas as ameaças cadastradas."
+          }
+        },
+        {
+          "name": "Get threat by id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/threats/:id",
+              "host": ["{{base_url}}"],
+              "path": ["threats", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Retorna uma ameaça pelo ID."
+          }
+        },
+        {
+          "name": "Create a new threat",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Zumbi de Sangue\",\n  \"type\": \"blood\",\n  \"dangerLevel\": \"medium\",\n  \"description\": \"Um corpo reanimado pelo elemento sangue.\",\n  \"status\": \"active\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/threats",
+              "host": ["{{base_url}}"],
+              "path": ["threats"]
+            },
+            "description": "Cria uma nova ameaça."
+          }
+        },
+        {
+          "name": "Update threat",
+          "request": {
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Zumbi de Sangue Enraivecido\",\n  \"type\": \"blood\",\n  \"dangerLevel\": \"high\",\n  \"description\": \"Um zumbi de sangue fortalecido.\",\n  \"status\": \"active\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/threats/:id",
+              "host": ["{{base_url}}"],
+              "path": ["threats", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Atualiza completamente uma ameaça."
+          }
+        },
+        {
+          "name": "Patch threat",
+          "request": {
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"danger_level\": \"high\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/threats/:id",
+              "host": ["{{base_url}}"],
+              "path": ["threats", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Atualiza parcialmente uma ameaça."
+          }
+        },
+        {
+          "name": "Delete threat",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/threats/:id",
+              "host": ["{{base_url}}"],
+              "path": ["threats", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Remove uma ameaça."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Paranormal Objects",
+      "description": "Endpoints para gerenciamento de objetos paranormais",
+      "item": [
+        {
+          "name": "GetAll Paranormal Objects",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/paranormal-objects",
+              "host": ["{{base_url}}"],
+              "path": ["paranormal-objects"]
+            },
+            "description": "Retorna todos os objetos paranormais cadastrados."
+          }
+        },
+        {
+          "name": "Get paranormal object by id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/paranormal-objects/:id",
+              "host": ["{{base_url}}"],
+              "path": ["paranormal-objects", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Retorna um objeto paranormal pelo ID."
+          }
+        },
+        {
+          "name": "Create a new paranormal object",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Lâmina do Medo\",\n  \"classification\": \"cursed\",\n  \"effect\": \"Causa dano mental e corta o tecido da realidade.\",\n  \"dangerLevel\": \"extreme\",\n  \"status\": \"secured\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/paranormal-objects",
+              "host": ["{{base_url}}"],
+              "path": ["paranormal-objects"]
+            },
+            "description": "Cria um novo objeto paranormal."
+          }
+        },
+        {
+          "name": "Update paranormal object",
+          "request": {
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Lâmina do Medo Verdadeiro\",\n  \"classification\": \"cursed\",\n  \"effect\": \"Causa dano mental massivo.\",\n  \"dangerLevel\": \"extreme\",\n  \"status\": \"inUse\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/paranormal-objects/:id",
+              "host": ["{{base_url}}"],
+              "path": ["paranormal-objects", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Atualiza completamente um objeto paranormal."
+          }
+        },
+        {
+          "name": "Patch paranormal object",
+          "request": {
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"containment_status\": \"contained\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/paranormal-objects/:id",
+              "host": ["{{base_url}}"],
+              "path": ["paranormal-objects", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Atualiza parcialmente um objeto paranormal."
+          }
+        },
+        {
+          "name": "Delete paranormal object",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/paranormal-objects/:id",
+              "host": ["{{base_url}}"],
+              "path": ["paranormal-objects", ":id"],
+              "variable": [{ "key": "id", "value": "1" }]
+            },
+            "description": "Remove um objeto paranormal."
+          }
+        }
+      ]
     }
   ]
 }
