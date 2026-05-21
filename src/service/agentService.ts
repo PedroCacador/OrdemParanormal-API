@@ -1,4 +1,4 @@
-import { Agent, AgentStatus } from "../model/agentModel";
+import { Agent, AgentStatus, AgentFilters } from "../model/agentModel";
 import { AgentRepository } from "../repository/agentRepository";
 
 export class AgentService {
@@ -8,8 +8,8 @@ export class AgentService {
         this.agentRepository = new AgentRepository();
     }
 
-    public async getAll(page: number, limit: number): Promise<Agent[]> {
-        return await this.agentRepository.getAll(page, limit);
+    public async getAll(filters: AgentFilters): Promise<Agent[]> {
+        return await this.agentRepository.getAll(filters);
     }
 
     public async getById(id: number): Promise<Agent | undefined> {

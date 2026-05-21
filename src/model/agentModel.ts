@@ -26,3 +26,10 @@ export enum AgentStatus {
     missing = "missing",
     dead = "dead"
 }
+
+export interface AgentFilters {
+    page: number;
+    limit: number;
+    sortBy: string;
+    order: string;
+}

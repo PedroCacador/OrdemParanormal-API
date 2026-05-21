@@ -1,14 +1,15 @@
-import { Team } from "../model/teamModel";
+import { Team, TeamFilters } from "../model/teamModel";
 import database from "../database";
 
 export class TeamRepository {
 
-    public async getAll(page: number, limit: number): Promise<Team[]> {
+    public async getAll(filters: TeamFilters): Promise<Team[]> {
         const teams = await database("teams")
             .select("*")
-            .limit(limit)
-            .offset((page - 1) * limit);
-            
+            .orderBy(filters.sortBy, filters.order)
+            .limit(filters.limit)
+            .offset((filters.page - 1) * filters.limit);
+
         return teams;
     }
 

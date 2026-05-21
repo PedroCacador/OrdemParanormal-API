@@ -1,14 +1,15 @@
-import { ParanormalObject } from "../model/paranormalObjectModel";
+import { ParanormalObject, ParanormalObjectFilters } from "../model/paranormalObjectModel";
 import database from "../database";
 
 export class ParanormalObjectRepository {
 
-    public async getAll(page: number, limit: number): Promise<ParanormalObject[]> {
+    public async getAll(filters: ParanormalObjectFilters): Promise<ParanormalObject[]> {
         const paranormalObjects = await database("paranormal_objects")
             .select("*")
-            .limit(limit)
-            .offset((page - 1) * limit);
-            
+            .orderBy(filters.sortBy, filters.order)
+            .limit(filters.limit)
+            .offset((filters.page - 1) * filters.limit);
+
         return paranormalObjects;
     }
 

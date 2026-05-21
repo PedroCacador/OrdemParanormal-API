@@ -1,15 +1,20 @@
 import { Request, Response } from "express";
 import { AgentService } from "../service/agentService";
+import { AgentFilters } from "../model/agentModel";
 
 const agentService = new AgentService();
 
 export class AgentController {
 
     public async getAll(req: Request, res: Response) {
-        const page = Number(req.query.page) || 1;
-        const limit = Number(req.query.limit) || 10;
-        
-        const agents = await agentService.getAll(page, limit);
+        const filters: AgentFilters = {
+            page: Number(req.query.page) || 1,
+            limit: Number(req.query.limit) || 10,
+            sortBy: req.query.sortBy as string || "id",
+            order: req.query.order as string || "asc"
+        };
+
+        const agents = await agentService.getAll(filters);
         return res.json(agents);
     }
 

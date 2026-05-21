@@ -1,4 +1,4 @@
-import { Mission } from "../model/missionModel";
+import { Mission, MissionFilters } from "../model/missionModel";
 import { MissionRepository } from "../repository/missionRepository";
 import { TeamRepository } from "../repository/teamRepository";
 import { ThreatRepository } from "../repository/threatRepository";
@@ -15,8 +15,8 @@ export class MissionService {
         this.threatRepository = new ThreatRepository();
     }
 
-    public async getAll(page: number, limit: number): Promise<Mission[]> {
-        return await this.missionRepository.getAll(page, limit);
+    public async getAll(filters: MissionFilters): Promise<Mission[]> {
+        return await this.missionRepository.getAll(filters);
     }
 
     public async getById(id: number): Promise<Mission | undefined> {

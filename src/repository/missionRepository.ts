@@ -1,14 +1,15 @@
-import { Mission } from "../model/missionModel";
+import { Mission, MissionFilters } from "../model/missionModel";
 import database from "../database";
 
 export class MissionRepository {
 
-    public async getAll(page: number, limit: number): Promise<Mission[]> {
+    public async getAll(filters: MissionFilters): Promise<Mission[]> {
         const missions = await database("missions")
             .select("*")
-            .limit(limit)
-            .offset((page - 1) * limit);
-            
+            .orderBy(filters.sortBy, filters.order)
+            .limit(filters.limit)
+            .offset((filters.page - 1) * filters.limit);
+
         return missions;
     }
 

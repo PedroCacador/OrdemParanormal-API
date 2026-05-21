@@ -1,4 +1,4 @@
-import { Threat } from "../model/threatModel";
+import { Threat, ThreatFilters } from "../model/threatModel";
 import { ThreatRepository } from "../repository/threatRepository";
 
 export class ThreatService {
@@ -8,8 +8,8 @@ export class ThreatService {
         this.threatRepository = new ThreatRepository();
     }
 
-    public async getAll(page: number, limit: number): Promise<Threat[]> {
-        return await this.threatRepository.getAll(page, limit);
+    public async getAll(filters: ThreatFilters): Promise<Threat[]> {
+        return await this.threatRepository.getAll(filters);
     }
 
     public async getById(id: number): Promise<Threat | undefined> {

@@ -1,15 +1,20 @@
 import { Request, Response } from "express";
 import { ThreatService } from "../service/threatService";
+import { ThreatFilters } from "../model/threatModel";
 
 const threatService = new ThreatService();
 
 export class ThreatController {
 
     public async getAll(req: Request, res: Response) {
-        const page = Number(req.query.page) || 1;
-        const limit = Number(req.query.limit) || 10;
-        
-        const threats = await threatService.getAll(page, limit);
+        const filters: ThreatFilters = {
+            page: Number(req.query.page) || 1,
+            limit: Number(req.query.limit) || 10,
+            sortBy: req.query.sortBy as string || "id",
+            order: req.query.order as string || "asc"
+        };
+
+        const threats = await threatService.getAll(filters);
         return res.json(threats);
     }
 

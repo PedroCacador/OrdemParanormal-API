@@ -1,14 +1,15 @@
-import { Threat } from "../model/threatModel";
+import { Threat, ThreatFilters } from "../model/threatModel";
 import database from "../database";
 
 export class ThreatRepository {
 
-    public async getAll(page: number, limit: number): Promise<Threat[]> {
+    public async getAll(filters: ThreatFilters): Promise<Threat[]> {
         const threats = await database("threats")
             .select("*")
-            .limit(limit)
-            .offset((page - 1) * limit);
-            
+            .orderBy(filters.sortBy, filters.order)
+            .limit(filters.limit)
+            .offset((filters.page - 1) * filters.limit);
+
         return threats;
     }
 

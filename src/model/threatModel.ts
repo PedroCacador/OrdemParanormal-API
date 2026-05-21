@@ -27,3 +27,10 @@ export enum ThreatStatus {
     contained = "contained",
     eliminated = "eliminated"
 }
+
+export interface ThreatFilters {
+    page: number;
+    limit: number;
+    sortBy: string;
+    order: string;
+}

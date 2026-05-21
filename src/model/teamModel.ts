@@ -17,3 +17,10 @@ export enum TeamStatus {
     dissolved = "dissolved",
     inactive = "inactive"
 }
+
+export interface TeamFilters {
+    page: number;
+    limit: number;
+    sortBy: string;
+    order: string;
+}

@@ -1,15 +1,20 @@
 import { Request, Response } from "express";
 import { TeamService } from "../service/teamService";
+import { TeamFilters } from "../model/teamModel";
 
 const teamService = new TeamService();
 
 export class TeamController {
 
     public async getAll(req: Request, res: Response) {
-        const page = Number(req.query.page) || 1;
-        const limit = Number(req.query.limit) || 10;
-        
-        const teams = await teamService.getAll(page, limit);
+        const filters: TeamFilters = {
+            page: Number(req.query.page) || 1,
+            limit: Number(req.query.limit) || 10,
+            sortBy: req.query.sortBy as string || "id",
+            order: req.query.order as string || "asc"
+        };
+
+        const teams = await teamService.getAll(filters);
         return res.json(teams);
     }
 

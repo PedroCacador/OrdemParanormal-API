@@ -1,4 +1,4 @@
-import { ParanormalObject } from "../model/paranormalObjectModel";
+import { ParanormalObject, ParanormalObjectFilters } from "../model/paranormalObjectModel";
 import { ParanormalObjectRepository } from "../repository/paranormalObjectRepository";
 
 export class ParanormalObjectService {
@@ -8,8 +8,8 @@ export class ParanormalObjectService {
         this.paranormalObjectRepository = new ParanormalObjectRepository();
     }
 
-    public async getAll(page: number, limit: number): Promise<ParanormalObject[]> {
-        return await this.paranormalObjectRepository.getAll(page, limit);
+    public async getAll(filters: ParanormalObjectFilters): Promise<ParanormalObject[]> {
+        return await this.paranormalObjectRepository.getAll(filters);
     }
 
     public async getById(id: number): Promise<ParanormalObject | undefined> {

@@ -21,3 +21,10 @@ export enum MissionStatus {
     completed = "completed",
     failed = "failed"
 }
+
+export interface MissionFilters {
+    page: number;
+    limit: number;
+    sortBy: string;
+    order: string;
+}

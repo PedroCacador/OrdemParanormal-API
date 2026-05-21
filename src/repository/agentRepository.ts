@@ -1,14 +1,15 @@
-import { Agent } from "../model/agentModel";
+import { Agent, AgentFilters } from "../model/agentModel";
 import database from "../database";
 
 export class AgentRepository {
 
-    public async getAll(page: number, limit: number): Promise<Agent[]> {
+    public async getAll(filters: AgentFilters): Promise<Agent[]> {
         const agents = await database("agents")
             .select("*")
-            .limit(limit)
-            .offset((page - 1) * limit);
-            
+            .orderBy(filters.sortBy, filters.order)
+            .limit(filters.limit)
+            .offset((filters.page - 1) * filters.limit);
+
         return agents;
     }
 
@@ -32,11 +33,11 @@ export class AgentRepository {
         }
 
         const newAgent = await this.getById(insertedId);
-        
+
         if (newAgent === undefined) {
             throw new Error("Erro ao criar agente no banco de dados.");
         }
-        
+
         return newAgent;
     }
 
@@ -71,11 +72,11 @@ export class AgentRepository {
 
     public async delete(id: number): Promise<boolean> {
         const rowsDeleted = await database("agents").where({ id: id }).del();
-        
+
         if (rowsDeleted > 0) {
             return true;
         }
-        
+
         return false;
     }
 }

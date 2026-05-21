@@ -1,4 +1,4 @@
-import { Team } from "../model/teamModel";
+import { Team, TeamFilters } from "../model/teamModel";
 import { TeamRepository } from "../repository/teamRepository";
 
 export class TeamService {
@@ -8,8 +8,8 @@ export class TeamService {
         this.teamRepository = new TeamRepository();
     }
 
-    public async getAll(page: number, limit: number): Promise<Team[]> {
-        return await this.teamRepository.getAll(page, limit);
+    public async getAll(filters: TeamFilters): Promise<Team[]> {
+        return await this.teamRepository.getAll(filters);
     }
 
     public async getById(id: number): Promise<Team | undefined> {

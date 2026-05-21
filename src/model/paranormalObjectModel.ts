@@ -25,3 +25,10 @@ export enum ObjectStatus {
     inUse = "inUse",
     missing = "missing"
 }
+
+export interface ParanormalObjectFilters {
+    page: number;
+    limit: number;
+    sortBy: string;
+    order: string;
+}
