@@ -33,4 +33,8 @@ export interface ThreatFilters {
     limit: number;
     sortBy: string;
     order: string;
+    name?: string | undefined;
+    type?: string | undefined;
+    dangerLevel?: string | undefined;
+    status?: string | undefined;
 }

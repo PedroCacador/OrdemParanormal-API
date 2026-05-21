@@ -32,4 +32,9 @@ export interface AgentFilters {
     limit: number;
     sortBy: string;
     order: string;
+    name?: string | undefined;
+    level?: string | undefined;
+    specialty?: string | undefined;
+    status?: string | undefined;
+    teamId?: number | undefined;
 }

@@ -2,25 +2,26 @@ import { Request, Response } from "express";
 import { TeamService } from "../service/teamService";
 import { TeamFilters } from "../model/teamModel";
 
-const teamService = new TeamService();
-
 export class TeamController {
 
-    public async getAll(req: Request, res: Response) {
+    public static async getAll(req: Request, res: Response) {
         const filters: TeamFilters = {
             page: Number(req.query.page) || 1,
             limit: Number(req.query.limit) || 10,
             sortBy: req.query.sortBy as string || "id",
-            order: req.query.order as string || "asc"
+            order: req.query.order as string || "asc",
+            name: req.query.name as string,
+            specialization: req.query.specialization as string,
+            status: req.query.status as string
         };
 
-        const teams = await teamService.getAll(filters);
+        const teams = await TeamService.getAll(filters);
         return res.json(teams);
     }
 
-    public async getById(req: Request, res: Response) {
+    public static async getById(req: Request, res: Response) {
         const id = Number(req.params.id);
-        const team = await teamService.getById(id);
+        const team = await TeamService.getById(id);
 
         if (team === undefined) {
             return res.status(404).json({ erro: "Equipe não encontrada" });
@@ -29,21 +30,27 @@ export class TeamController {
         return res.json(team);
     }
 
-    public async create(req: Request, res: Response) {
+    public static async create(req: Request, res: Response) {
         try {
+            const { name, specialization, status } = req.body;
+            if (!name || !specialization || !status) {
+                return res.status(400).json({ erro: "Todos os campos obrigatórios devem ser preenchidos (name, specialization, status)." });
+            }
+
             const teamData = req.body;
-            const newTeam = await teamService.create(teamData);
+            const newTeam = await TeamService.create(teamData);
             return res.status(201).json(newTeam);
         } catch (error: any) {
             return res.status(400).json({ erro: error.message });
         }
     }
 
-    public async update(req: Request, res: Response) {
+    public static async update(req: Request, res: Response) {
         try {
             const id = Number(req.params.id);
             const teamData = req.body;
-            const updatedTeam = await teamService.update(id, teamData);
+
+            const updatedTeam = await TeamService.update(id, teamData);
 
             if (updatedTeam === undefined) {
                 return res.status(404).json({ erro: "Equipe não encontrada" });
@@ -55,11 +62,12 @@ export class TeamController {
         }
     }
 
-    public async patch(req: Request, res: Response) {
+    public static async patch(req: Request, res: Response) {
         try {
             const id = Number(req.params.id);
             const teamData = req.body;
-            const patchedTeam = await teamService.patch(id, teamData);
+
+            const patchedTeam = await TeamService.patch(id, teamData);
 
             if (patchedTeam === undefined) {
                 return res.status(404).json({ erro: "Equipe não encontrada" });
@@ -71,10 +79,10 @@ export class TeamController {
         }
     }
 
-    public async delete(req: Request, res: Response) {
+    public static async delete(req: Request, res: Response) {
         try {
             const id = Number(req.params.id);
-            const foiRemovido = await teamService.delete(id);
+            const foiRemovido = await TeamService.delete(id);
 
             if (foiRemovido === false) {
                 return res.status(404).json({ erro: "Equipe não encontrada" });

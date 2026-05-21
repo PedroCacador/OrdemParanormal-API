@@ -15,9 +15,20 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{base_url}}/agents",
+              "raw": "{{base_url}}/agents?page=1&limit=10&sortBy=id&order=asc&name=&level=&specialty=&status=&teamId=",
               "host": ["{{base_url}}"],
-              "path": ["agents"]
+              "path": ["agents"],
+              "query": [
+                { "key": "page", "value": "1", "description": "Número da página" },
+                { "key": "limit", "value": "10", "description": "Itens por página" },
+                { "key": "sortBy", "value": "id", "description": "Campo de ordenação" },
+                { "key": "order", "value": "asc", "description": "asc ou desc" },
+                { "key": "name", "value": "", "description": "Filtrar por nome (opcional)" },
+                { "key": "level", "value": "", "description": "Filtrar por nível (opcional)" },
+                { "key": "specialty", "value": "", "description": "Filtrar por especialidade (opcional)" },
+                { "key": "status", "value": "", "description": "Filtrar por status (opcional)" },
+                { "key": "teamId", "value": "", "description": "Filtrar por ID da equipe (opcional)" }
+              ]
             },
             "description": "Retorna todos os agentes cadastrados."
           }
@@ -112,9 +123,18 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{base_url}}/teams",
+              "raw": "{{base_url}}/teams?page=1&limit=10&sortBy=id&order=asc&name=&specialization=&status=",
               "host": ["{{base_url}}"],
-              "path": ["teams"]
+              "path": ["teams"],
+              "query": [
+                { "key": "page", "value": "1", "description": "Número da página" },
+                { "key": "limit", "value": "10", "description": "Itens por página" },
+                { "key": "sortBy", "value": "id", "description": "Campo de ordenação" },
+                { "key": "order", "value": "asc", "description": "asc ou desc" },
+                { "key": "name", "value": "", "description": "Filtrar por nome (opcional)" },
+                { "key": "specialization", "value": "", "description": "Filtrar por especialização (opcional)" },
+                { "key": "status", "value": "", "description": "Filtrar por status (opcional)" }
+              ]
             },
             "description": "Retorna todas as equipes cadastradas."
           }
@@ -209,9 +229,18 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{base_url}}/missions",
+              "raw": "{{base_url}}/missions?page=1&limit=10&sortBy=id&order=asc&title=&dangerLevel=&status=",
               "host": ["{{base_url}}"],
-              "path": ["missions"]
+              "path": ["missions"],
+              "query": [
+                { "key": "page", "value": "1", "description": "Número da página" },
+                { "key": "limit", "value": "10", "description": "Itens por página" },
+                { "key": "sortBy", "value": "id", "description": "Campo de ordenação" },
+                { "key": "order", "value": "asc", "description": "asc ou desc" },
+                { "key": "title", "value": "", "description": "Filtrar por título (opcional)" },
+                { "key": "dangerLevel", "value": "", "description": "Filtrar por nível de perigo (opcional)" },
+                { "key": "status", "value": "", "description": "Filtrar por status (opcional)" }
+              ]
             },
             "description": "Retorna todas as missões cadastradas."
           }
@@ -306,9 +335,19 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{base_url}}/threats",
+              "raw": "{{base_url}}/threats?page=1&limit=10&sortBy=id&order=asc&name=&type=&dangerLevel=&status=",
               "host": ["{{base_url}}"],
-              "path": ["threats"]
+              "path": ["threats"],
+              "query": [
+                { "key": "page", "value": "1", "description": "Número da página" },
+                { "key": "limit", "value": "10", "description": "Itens por página" },
+                { "key": "sortBy", "value": "id", "description": "Campo de ordenação" },
+                { "key": "order", "value": "asc", "description": "asc ou desc" },
+                { "key": "name", "value": "", "description": "Filtrar por nome (opcional)" },
+                { "key": "type", "value": "", "description": "Filtrar por tipo (opcional)" },
+                { "key": "dangerLevel", "value": "", "description": "Filtrar por nível de perigo (opcional)" },
+                { "key": "status", "value": "", "description": "Filtrar por status (opcional)" }
+              ]
             },
             "description": "Retorna todas as ameaças cadastradas."
           }
@@ -367,7 +406,7 @@
             "method": "PATCH",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"danger_level\": \"high\"\n}",
+              "raw": "{\n  \"dangerLevel\": \"high\"\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
@@ -403,9 +442,19 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{base_url}}/paranormal-objects",
+              "raw": "{{base_url}}/paranormal-objects?page=1&limit=10&sortBy=id&order=asc&name=&classification=&dangerLevel=&status=",
               "host": ["{{base_url}}"],
-              "path": ["paranormal-objects"]
+              "path": ["paranormal-objects"],
+              "query": [
+                { "key": "page", "value": "1", "description": "Número da página" },
+                { "key": "limit", "value": "10", "description": "Itens por página" },
+                { "key": "sortBy", "value": "id", "description": "Campo de ordenação" },
+                { "key": "order", "value": "asc", "description": "asc ou desc" },
+                { "key": "name", "value": "", "description": "Filtrar por nome (opcional)" },
+                { "key": "classification", "value": "", "description": "Filtrar por classificação (opcional)" },
+                { "key": "dangerLevel", "value": "", "description": "Filtrar por nível de perigo (opcional)" },
+                { "key": "status", "value": "", "description": "Filtrar por status (opcional)" }
+              ]
             },
             "description": "Retorna todos os objetos paranormais cadastrados."
           }
@@ -464,7 +513,7 @@
             "method": "PATCH",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"containment_status\": \"contained\"\n}",
+              "raw": "{\n  \"status\": \"contained\"\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {

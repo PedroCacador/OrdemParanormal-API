@@ -2,13 +2,12 @@ import { Router } from "express";
 import { AgentController } from "../controller/agentController";
 
 const router = Router();
-const controller = new AgentController();
 
-router.get("/agents", controller.getAll);
-router.get("/agents/:id", controller.getById);
-router.post("/agents", controller.create);
-router.put("/agents/:id", controller.update);
-router.patch("/agents/:id", controller.patch);
-router.delete("/agents/:id", controller.delete);
+router.get("/agents", AgentController.getAll);
+router.get("/agents/:id", AgentController.getById);
+router.post("/agents", AgentController.create);
+router.put("/agents/:id", AgentController.update);
+router.patch("/agents/:id", AgentController.patch);
+router.delete("/agents/:id", AgentController.delete);
 
 export default router;

@@ -3,9 +3,23 @@ import database from "../database";
 
 export class ThreatRepository {
 
-    public async getAll(filters: ThreatFilters): Promise<Threat[]> {
-        const threats = await database("threats")
-            .select("*")
+    public static async getAll(filters: ThreatFilters): Promise<Threat[]> {
+        let query = database("threats").select("*");
+
+        if (filters.name) {
+            query = query.where("name", "like", `%${filters.name}%`);
+        }
+        if (filters.type) {
+            query = query.where("type", filters.type);
+        }
+        if (filters.dangerLevel) {
+            query = query.where("dangerLevel", filters.dangerLevel);
+        }
+        if (filters.status) {
+            query = query.where("status", filters.status);
+        }
+
+        const threats = await query
             .orderBy(filters.sortBy, filters.order)
             .limit(filters.limit)
             .offset((filters.page - 1) * filters.limit);
@@ -13,11 +27,12 @@ export class ThreatRepository {
         return threats;
     }
 
-    public async getById(id: number): Promise<Threat | undefined> {
-        return await database("threats").where({ id: id }).first();
+    public static async getById(id: number): Promise<Threat | undefined> {
+        const threat = await database("threats").where({ id: id }).first();
+        return threat;
     }
 
-    public async create(threatData: any): Promise<Threat> {
+    public static async create(threatData: any): Promise<Threat> {
         const [insertedId] = await database("threats").insert({
             name: threatData.name,
             type: threatData.type,
@@ -30,14 +45,16 @@ export class ThreatRepository {
             throw new Error("Erro crítico: banco não retornou o ID gerado.");
         }
 
-        const newThreat = await this.getById(insertedId);
+        const newThreat = await ThreatRepository.getById(insertedId);
+
         if (newThreat === undefined) {
             throw new Error("Erro ao criar ameaça no banco de dados.");
         }
+
         return newThreat;
     }
 
-    public async update(id: number, threatData: any): Promise<Threat | undefined> {
+    public static async update(id: number, threatData: any): Promise<Threat | undefined> {
         const rowsUpdated = await database("threats").where({ id: id }).update({
             name: threatData.name,
             type: threatData.type,
@@ -50,20 +67,22 @@ export class ThreatRepository {
             return undefined;
         }
 
-        return await this.getById(id);
+        const updatedThreat = await ThreatRepository.getById(id);
+        return updatedThreat;
     }
 
-    public async patch(id: number, threatData: any): Promise<Threat | undefined> {
+    public static async patch(id: number, threatData: any): Promise<Threat | undefined> {
         const rowsUpdated = await database("threats").where({ id: id }).update(threatData);
 
         if (rowsUpdated === 0) {
             return undefined;
         }
 
-        return await this.getById(id);
+        const updatedThreat = await ThreatRepository.getById(id);
+        return updatedThreat;
     }
 
-    public async delete(id: number): Promise<boolean> {
+    public static async delete(id: number): Promise<boolean> {
         const rowsDeleted = await database("threats").where({ id: id }).del();
         return rowsDeleted > 0;
     }

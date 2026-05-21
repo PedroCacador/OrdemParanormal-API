@@ -3,9 +3,26 @@ import database from "../database";
 
 export class AgentRepository {
 
-    public async getAll(filters: AgentFilters): Promise<Agent[]> {
-        const agents = await database("agents")
-            .select("*")
+    public static async getAll(filters: AgentFilters): Promise<Agent[]> {
+        let query = database("agents").select("*");
+
+        if (filters.name) {
+            query = query.where("name", "like", `%${filters.name}%`);
+        }
+        if (filters.level) {
+            query = query.where("level", filters.level);
+        }
+        if (filters.specialty) {
+            query = query.where("specialty", filters.specialty);
+        }
+        if (filters.status) {
+            query = query.where("status", filters.status);
+        }
+        if (filters.teamId) {
+            query = query.where("teamId", filters.teamId);
+        }
+
+        const agents = await query
             .orderBy(filters.sortBy, filters.order)
             .limit(filters.limit)
             .offset((filters.page - 1) * filters.limit);
@@ -13,12 +30,12 @@ export class AgentRepository {
         return agents;
     }
 
-    public async getById(id: number): Promise<Agent | undefined> {
+    public static async getById(id: number): Promise<Agent | undefined> {
         const agent = await database("agents").where({ id: id }).first();
         return agent;
     }
 
-    public async create(agentData: any): Promise<Agent> {
+    public static async create(agentData: any): Promise<Agent> {
         const [insertedId] = await database("agents").insert({
             teamId: agentData.teamId,
             name: agentData.name,
@@ -32,7 +49,7 @@ export class AgentRepository {
             throw new Error("Erro crítico: banco não retornou o ID gerado.");
         }
 
-        const newAgent = await this.getById(insertedId);
+        const newAgent = await AgentRepository.getById(insertedId);
 
         if (newAgent === undefined) {
             throw new Error("Erro ao criar agente no banco de dados.");
@@ -41,7 +58,7 @@ export class AgentRepository {
         return newAgent;
     }
 
-    public async update(id: number, agentData: any): Promise<Agent | undefined> {
+    public static async update(id: number, agentData: any): Promise<Agent | undefined> {
         const rowsUpdated = await database("agents").where({ id: id }).update({
             teamId: agentData.teamId,
             name: agentData.name,
@@ -55,22 +72,22 @@ export class AgentRepository {
             return undefined;
         }
 
-        const updatedAgent = await this.getById(id);
+        const updatedAgent = await AgentRepository.getById(id);
         return updatedAgent;
     }
 
-    public async patch(id: number, agentData: any): Promise<Agent | undefined> {
+    public static async patch(id: number, agentData: any): Promise<Agent | undefined> {
         const rowsUpdated = await database("agents").where({ id: id }).update(agentData);
 
         if (rowsUpdated === 0) {
             return undefined;
         }
 
-        const updatedAgent = await this.getById(id);
+        const updatedAgent = await AgentRepository.getById(id);
         return updatedAgent;
     }
 
-    public async delete(id: number): Promise<boolean> {
+    public static async delete(id: number): Promise<boolean> {
         const rowsDeleted = await database("agents").where({ id: id }).del();
 
         if (rowsDeleted > 0) {

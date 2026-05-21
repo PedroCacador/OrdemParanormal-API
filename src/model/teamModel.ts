@@ -23,4 +23,7 @@ export interface TeamFilters {
     limit: number;
     sortBy: string;
     order: string;
+    name?: string | undefined;
+    specialization?: string | undefined;
+    status?: string | undefined;
 }

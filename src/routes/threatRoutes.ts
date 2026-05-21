@@ -2,13 +2,12 @@ import { Router } from "express";
 import { ThreatController } from "../controller/threatController";
 
 const router = Router();
-const controller = new ThreatController();
 
-router.get("/threats", controller.getAll);
-router.get("/threats/:id", controller.getById);
-router.post("/threats", controller.create);
-router.put("/threats/:id", controller.update);
-router.patch("/threats/:id", controller.patch);
-router.delete("/threats/:id", controller.delete);
+router.get("/threats", ThreatController.getAll);
+router.get("/threats/:id", ThreatController.getById);
+router.post("/threats", ThreatController.create);
+router.put("/threats/:id", ThreatController.update);
+router.patch("/threats/:id", ThreatController.patch);
+router.delete("/threats/:id", ThreatController.delete);
 
 export default router;

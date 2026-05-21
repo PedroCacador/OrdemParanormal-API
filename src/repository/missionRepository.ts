@@ -3,9 +3,20 @@ import database from "../database";
 
 export class MissionRepository {
 
-    public async getAll(filters: MissionFilters): Promise<Mission[]> {
-        const missions = await database("missions")
-            .select("*")
+    public static async getAll(filters: MissionFilters): Promise<Mission[]> {
+        let query = database("missions").select("*");
+
+        if (filters.title) {
+            query = query.where("title", "like", `%${filters.title}%`);
+        }
+        if (filters.dangerLevel) {
+            query = query.where("dangerLevel", filters.dangerLevel);
+        }
+        if (filters.status) {
+            query = query.where("status", filters.status);
+        }
+
+        const missions = await query
             .orderBy(filters.sortBy, filters.order)
             .limit(filters.limit)
             .offset((filters.page - 1) * filters.limit);
@@ -13,11 +24,18 @@ export class MissionRepository {
         return missions;
     }
 
-    public async getById(id: number): Promise<Mission | undefined> {
-        return await database("missions").where({ id: id }).first();
+    public static async getById(id: number): Promise<Mission | undefined> {
+        const mission = await database("missions").where({ id: id }).first();
+
+        if (mission) {
+            if (typeof mission.teamIds === 'string') mission.teamIds = JSON.parse(mission.teamIds);
+            if (typeof mission.threatIds === 'string') mission.threatIds = JSON.parse(mission.threatIds);
+        }
+
+        return mission;
     }
 
-    public async create(missionData: any): Promise<Mission> {
+    public static async create(missionData: any): Promise<Mission> {
         const [insertedId] = await database("missions").insert({
             title: missionData.title,
             description: missionData.description,
@@ -31,14 +49,16 @@ export class MissionRepository {
             throw new Error("Erro crítico: banco não retornou o ID gerado.");
         }
 
-        const newMission = await this.getById(insertedId);
+        const newMission = await MissionRepository.getById(insertedId);
+
         if (newMission === undefined) {
             throw new Error("Erro ao criar missão no banco de dados.");
         }
+
         return newMission;
     }
 
-    public async update(id: number, missionData: any): Promise<Mission | undefined> {
+    public static async update(id: number, missionData: any): Promise<Mission | undefined> {
         const rowsUpdated = await database("missions").where({ id: id }).update({
             title: missionData.title,
             description: missionData.description,
@@ -52,29 +72,31 @@ export class MissionRepository {
             return undefined;
         }
 
-        return await this.getById(id);
+        const updatedMission = await MissionRepository.getById(id);
+        return updatedMission;
     }
 
-    public async patch(id: number, missionData: any): Promise<Mission | undefined> {
-        const dataToUpdate: any = { ...missionData };
-        if (dataToUpdate.teamIds !== undefined) {
-            dataToUpdate.teamIds = JSON.stringify(dataToUpdate.teamIds);
+    public static async patch(id: number, missionData: any): Promise<Mission | undefined> {
+        const patchData: any = { ...missionData };
+
+        if (patchData.teamIds) {
+            patchData.teamIds = JSON.stringify(patchData.teamIds);
         }
-        if (dataToUpdate.threatIds !== undefined) {
-            dataToUpdate.threatIds = JSON.stringify(dataToUpdate.threatIds);
+        if (patchData.threatIds) {
+            patchData.threatIds = JSON.stringify(patchData.threatIds);
         }
 
-
-        const rowsUpdated = await database("missions").where({ id: id }).update(dataToUpdate);
+        const rowsUpdated = await database("missions").where({ id: id }).update(patchData);
 
         if (rowsUpdated === 0) {
             return undefined;
         }
 
-        return await this.getById(id);
+        const updatedMission = await MissionRepository.getById(id);
+        return updatedMission;
     }
 
-    public async delete(id: number): Promise<boolean> {
+    public static async delete(id: number): Promise<boolean> {
         const rowsDeleted = await database("missions").where({ id: id }).del();
         return rowsDeleted > 0;
     }

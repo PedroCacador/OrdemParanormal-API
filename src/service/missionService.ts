@@ -5,86 +5,88 @@ import { ThreatRepository } from "../repository/threatRepository";
 import { TeamStatus } from "../model/teamModel";
 
 export class MissionService {
-    private missionRepository: MissionRepository;
-    private teamRepository: TeamRepository;
-    private threatRepository: ThreatRepository;
 
-    constructor() {
-        this.missionRepository = new MissionRepository();
-        this.teamRepository = new TeamRepository();
-        this.threatRepository = new ThreatRepository();
+    public static async getAll(filters: MissionFilters): Promise<Mission[]> {
+        return await MissionRepository.getAll(filters);
     }
 
-    public async getAll(filters: MissionFilters): Promise<Mission[]> {
-        return await this.missionRepository.getAll(filters);
+    public static async getById(id: number): Promise<Mission | undefined> {
+        return await MissionRepository.getById(id);
     }
 
-    public async getById(id: number): Promise<Mission | undefined> {
-        return await this.missionRepository.getById(id);
+
+    public static async create(missionData: any): Promise<Mission> {
+        if (missionData.teamIds && missionData.teamIds.length > 0) {
+            for (const teamId of missionData.teamIds) {
+                const team = await TeamRepository.getById(teamId);
+                if (!team) {
+                    throw new Error(`A equipe com ID ${teamId} não existe.`);
+                }
+            }
+        }
+
+        if (missionData.threatIds && missionData.threatIds.length > 0) {
+            for (const threatId of missionData.threatIds) {
+                const threat = await ThreatRepository.getById(threatId);
+                if (!threat) {
+                    throw new Error(`A ameaça com ID ${threatId} não existe.`);
+                }
+            }
+        }
+
+        return await MissionRepository.create(missionData);
     }
 
-    public async create(missionData: any): Promise<Mission> {
-        await this.validateTeamsAndThreats(missionData.teamIds, missionData.threatIds);
-        return await this.missionRepository.create(missionData);
+    public static async update(id: number, missionData: any): Promise<Mission | undefined> {
+        if (missionData.teamIds && missionData.teamIds.length > 0) {
+            for (const teamId of missionData.teamIds) {
+                const team = await TeamRepository.getById(teamId);
+                if (!team) {
+                    throw new Error(`A equipe com ID ${teamId} não existe.`);
+                }
+            }
+        }
+
+        if (missionData.threatIds && missionData.threatIds.length > 0) {
+            for (const threatId of missionData.threatIds) {
+                const threat = await ThreatRepository.getById(threatId);
+                if (!threat) {
+                    throw new Error(`A ameaça com ID ${threatId} não existe.`);
+                }
+            }
+        }
+        return await MissionRepository.update(id, missionData);
     }
 
-    public async update(id: number, missionData: any): Promise<Mission | undefined> {
-        await this.validateTeamsAndThreats(missionData.teamIds, missionData.threatIds);
-        return await this.missionRepository.update(id, missionData);
-    }
-
-    public async patch(id: number, missionData: any): Promise<Mission | undefined> {
-        const missionOriginal = await this.missionRepository.getById(id);
+    public static async patch(id: number, missionData: any): Promise<Mission | undefined> {
+        let missionOriginal = await MissionRepository.getById(id);
 
         if (missionOriginal === undefined) {
             return undefined;
         }
 
-        let finalTeamIds = missionOriginal.teamIds;
-        if (missionData.teamIds !== undefined) {
-            finalTeamIds = missionData.teamIds;
-        }
-
-        let finalThreatIds = missionOriginal.threatIds;
-        if (missionData.threatIds !== undefined) {
-            finalThreatIds = missionData.threatIds;
-        }
-
-        await this.validateTeamsAndThreats(finalTeamIds, finalThreatIds);
-
-        return await this.missionRepository.patch(id, missionData);
-    }
-
-    public async delete(id: number): Promise<boolean> {
-        return await this.missionRepository.delete(id);
-    }
-
-    private async validateTeamsAndThreats(teamIds: number[], threatIds: number[]): Promise<void> {
-        if (teamIds !== undefined && teamIds.length > 0) {
-            for (let i = 0; i < teamIds.length; i++) {
-                const teamId = teamIds[i];
-                if (teamId !== undefined) {
-                    const team = await this.teamRepository.getById(teamId);
-                    if (team === undefined) {
-                        throw new Error(`Violação de Regra: A equipe de ID ${teamId} não existe.`);
-                    }
-                    if (team.status !== TeamStatus.active) {
-                        throw new Error(`Violação de Regra: A equipe '${team.name}' não está ativa para missões.`);
-                    }
+        if (missionData.teamIds && missionData.teamIds.length > 0) {
+            for (const teamId of missionData.teamIds) {
+                const team = await TeamRepository.getById(teamId);
+                if (!team) {
+                    throw new Error(`A equipe com ID ${teamId} não existe.`);
                 }
             }
         }
 
-        if (threatIds !== undefined && threatIds.length > 0) {
-            for (let i = 0; i < threatIds.length; i++) {
-                const threatId = threatIds[i];
-                if (threatId !== undefined) {
-                    const threat = await this.threatRepository.getById(threatId);
-                    if (threat === undefined) {
-                        throw new Error(`Violação de Regra: A ameaça de ID ${threatId} não existe.`);
-                    }
+        if (missionData.threatIds && missionData.threatIds.length > 0) {
+            for (const threatId of missionData.threatIds) {
+                const threat = await ThreatRepository.getById(threatId);
+                if (!threat) {
+                    throw new Error(`A ameaça com ID ${threatId} não existe.`);
                 }
             }
         }
+
+        return await MissionRepository.patch(id, missionData);
+    }
+
+    public static async delete(id: number): Promise<boolean> {
+        return await MissionRepository.delete(id);
     }
 }

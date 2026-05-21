@@ -2,33 +2,28 @@ import { Team, TeamFilters } from "../model/teamModel";
 import { TeamRepository } from "../repository/teamRepository";
 
 export class TeamService {
-    private teamRepository: TeamRepository;
 
-    constructor() {
-        this.teamRepository = new TeamRepository();
+    public static async getAll(filters: TeamFilters): Promise<Team[]> {
+        return await TeamRepository.getAll(filters);
     }
 
-    public async getAll(filters: TeamFilters): Promise<Team[]> {
-        return await this.teamRepository.getAll(filters);
+    public static async getById(id: number): Promise<Team | undefined> {
+        return await TeamRepository.getById(id);
     }
 
-    public async getById(id: number): Promise<Team | undefined> {
-        return await this.teamRepository.getById(id);
+    public static async create(teamData: any): Promise<Team> {
+        return await TeamRepository.create(teamData);
     }
 
-    public async create(teamData: any): Promise<Team> {
-        return await this.teamRepository.create(teamData);
+    public static async update(id: number, teamData: any): Promise<Team | undefined> {
+        return await TeamRepository.update(id, teamData);
     }
 
-    public async update(id: number, teamData: any): Promise<Team | undefined> {
-        return await this.teamRepository.update(id, teamData);
+    public static async patch(id: number, teamData: any): Promise<Team | undefined> {
+        return await TeamRepository.patch(id, teamData);
     }
 
-    public async patch(id: number, teamData: any): Promise<Team | undefined> {
-        return await this.teamRepository.patch(id, teamData);
-    }
-
-    public async delete(id: number): Promise<boolean> {
-        return await this.teamRepository.delete(id);
+    public static async delete(id: number): Promise<boolean> {
+        return await TeamRepository.delete(id);
     }
 }

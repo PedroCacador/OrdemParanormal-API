@@ -2,33 +2,28 @@ import { ParanormalObject, ParanormalObjectFilters } from "../model/paranormalOb
 import { ParanormalObjectRepository } from "../repository/paranormalObjectRepository";
 
 export class ParanormalObjectService {
-    private paranormalObjectRepository: ParanormalObjectRepository;
 
-    constructor() {
-        this.paranormalObjectRepository = new ParanormalObjectRepository();
+    public static async getAll(filters: ParanormalObjectFilters): Promise<ParanormalObject[]> {
+        return await ParanormalObjectRepository.getAll(filters);
     }
 
-    public async getAll(filters: ParanormalObjectFilters): Promise<ParanormalObject[]> {
-        return await this.paranormalObjectRepository.getAll(filters);
+    public static async getById(id: number): Promise<ParanormalObject | undefined> {
+        return await ParanormalObjectRepository.getById(id);
     }
 
-    public async getById(id: number): Promise<ParanormalObject | undefined> {
-        return await this.paranormalObjectRepository.getById(id);
+    public static async create(objectData: any): Promise<ParanormalObject> {
+        return await ParanormalObjectRepository.create(objectData);
     }
 
-    public async create(objectData: any): Promise<ParanormalObject> {
-        return await this.paranormalObjectRepository.create(objectData);
+    public static async update(id: number, objectData: any): Promise<ParanormalObject | undefined> {
+        return await ParanormalObjectRepository.update(id, objectData);
     }
 
-    public async update(id: number, objectData: any): Promise<ParanormalObject | undefined> {
-        return await this.paranormalObjectRepository.update(id, objectData);
+    public static async patch(id: number, objectData: any): Promise<ParanormalObject | undefined> {
+        return await ParanormalObjectRepository.patch(id, objectData);
     }
 
-    public async patch(id: number, objectData: any): Promise<ParanormalObject | undefined> {
-        return await this.paranormalObjectRepository.patch(id, objectData);
-    }
-
-    public async delete(id: number): Promise<boolean> {
-        return await this.paranormalObjectRepository.delete(id);
+    public static async delete(id: number): Promise<boolean> {
+        return await ParanormalObjectRepository.delete(id);
     }
 }

@@ -31,4 +31,8 @@ export interface ParanormalObjectFilters {
     limit: number;
     sortBy: string;
     order: string;
+    name?: string | undefined;
+    classification?: string | undefined;
+    dangerLevel?: string | undefined;
+    status?: string | undefined;
 }

@@ -2,13 +2,12 @@ import { Router } from "express";
 import { TeamController } from "../controller/teamController";
 
 const router = Router();
-const controller = new TeamController();
 
-router.get("/teams", controller.getAll);
-router.get("/teams/:id", controller.getById);
-router.post("/teams", controller.create);
-router.put("/teams/:id", controller.update);
-router.patch("/teams/:id", controller.patch);
-router.delete("/teams/:id", controller.delete);
+router.get("/teams", TeamController.getAll);
+router.get("/teams/:id", TeamController.getById);
+router.post("/teams", TeamController.create);
+router.put("/teams/:id", TeamController.update);
+router.patch("/teams/:id", TeamController.patch);
+router.delete("/teams/:id", TeamController.delete);
 
 export default router;

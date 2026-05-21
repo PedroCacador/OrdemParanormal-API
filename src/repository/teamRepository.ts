@@ -3,9 +3,20 @@ import database from "../database";
 
 export class TeamRepository {
 
-    public async getAll(filters: TeamFilters): Promise<Team[]> {
-        const teams = await database("teams")
-            .select("*")
+    public static async getAll(filters: TeamFilters): Promise<Team[]> {
+        let query = database("teams").select("*");
+
+        if (filters.name) {
+            query = query.where("name", "like", `%${filters.name}%`);
+        }
+        if (filters.specialization) {
+            query = query.where("specialization", filters.specialization);
+        }
+        if (filters.status) {
+            query = query.where("status", filters.status);
+        }
+
+        const teams = await query
             .orderBy(filters.sortBy, filters.order)
             .limit(filters.limit)
             .offset((filters.page - 1) * filters.limit);
@@ -13,11 +24,12 @@ export class TeamRepository {
         return teams;
     }
 
-    public async getById(id: number): Promise<Team | undefined> {
-        return await database("teams").where({ id: id }).first();
+    public static async getById(id: number): Promise<Team | undefined> {
+        const team = await database("teams").where({ id: id }).first();
+        return team;
     }
 
-    public async create(teamData: any): Promise<Team> {
+    public static async create(teamData: any): Promise<Team> {
         const [insertedId] = await database("teams").insert({
             name: teamData.name,
             specialization: teamData.specialization,
@@ -28,14 +40,16 @@ export class TeamRepository {
             throw new Error("Erro crítico: banco não retornou o ID gerado.");
         }
 
-        const newTeam = await this.getById(insertedId);
+        const newTeam = await TeamRepository.getById(insertedId);
+
         if (newTeam === undefined) {
             throw new Error("Erro ao criar equipe no banco de dados.");
         }
+
         return newTeam;
     }
 
-    public async update(id: number, teamData: any): Promise<Team | undefined> {
+    public static async update(id: number, teamData: any): Promise<Team | undefined> {
         const rowsUpdated = await database("teams").where({ id: id }).update({
             name: teamData.name,
             specialization: teamData.specialization,
@@ -46,20 +60,22 @@ export class TeamRepository {
             return undefined;
         }
 
-        return await this.getById(id);
+        const updatedTeam = await TeamRepository.getById(id);
+        return updatedTeam;
     }
 
-    public async patch(id: number, teamData: any): Promise<Team | undefined> {
+    public static async patch(id: number, teamData: any): Promise<Team | undefined> {
         const rowsUpdated = await database("teams").where({ id: id }).update(teamData);
 
         if (rowsUpdated === 0) {
             return undefined;
         }
 
-        return await this.getById(id);
+        const updatedTeam = await TeamRepository.getById(id);
+        return updatedTeam;
     }
 
-    public async delete(id: number): Promise<boolean> {
+    public static async delete(id: number): Promise<boolean> {
         const rowsDeleted = await database("teams").where({ id: id }).del();
         return rowsDeleted > 0;
     }

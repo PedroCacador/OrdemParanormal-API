@@ -27,4 +27,7 @@ export interface MissionFilters {
     limit: number;
     sortBy: string;
     order: string;
+    title?: string | undefined;
+    dangerLevel?: string | undefined;
+    status?: string | undefined;
 }

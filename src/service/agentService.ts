@@ -2,42 +2,37 @@ import { Agent, AgentStatus, AgentFilters } from "../model/agentModel";
 import { AgentRepository } from "../repository/agentRepository";
 
 export class AgentService {
-    private agentRepository: AgentRepository;
 
-    constructor() {
-        this.agentRepository = new AgentRepository();
+    public static async getAll(filters: AgentFilters): Promise<Agent[]> {
+        return await AgentRepository.getAll(filters);
     }
 
-    public async getAll(filters: AgentFilters): Promise<Agent[]> {
-        return await this.agentRepository.getAll(filters);
+    public static async getById(id: number): Promise<Agent | undefined> {
+        return await AgentRepository.getById(id);
     }
 
-    public async getById(id: number): Promise<Agent | undefined> {
-        return await this.agentRepository.getById(id);
-    }
-
-    public async create(agentData: any): Promise<Agent> {
+    public static async create(agentData: any): Promise<Agent> {
         // if (agentData.status === AgentStatus.active) {
         //     if (agentData.teamId === undefined || agentData.teamId === null) {
         //         throw new Error("Violação de Regra: Um agente ativo precisa estar em uma equipe.");
         //     }
         // } PROVISÓRIO FI!
 
-        return await this.agentRepository.create(agentData);
+        return await AgentRepository.create(agentData);
     }
 
-    public async update(id: number, agentData: any): Promise<Agent | undefined> {
+    public static async update(id: number, agentData: any): Promise<Agent | undefined> {
         // if (agentData.status === AgentStatus.active) {
         //     if (agentData.teamId === undefined || agentData.teamId === null) {
         //         throw new Error("Violação de Regra: Um agente ativo precisa estar em uma equipe.");
         //     }
         // } PROVISÓRIO FI!
 
-        return await this.agentRepository.update(id, agentData);
+        return await AgentRepository.update(id, agentData);
     }
 
-    public async patch(id: number, agentData: any): Promise<Agent | undefined> {
-        let agentOriginal = await this.agentRepository.getById(id);
+    public static async patch(id: number, agentData: any): Promise<Agent | undefined> {
+        let agentOriginal = await AgentRepository.getById(id);
 
         if (agentOriginal === undefined) {
             return undefined;
@@ -59,10 +54,10 @@ export class AgentService {
         //     }
         // }
 
-        return await this.agentRepository.patch(id, agentData);
+        return await AgentRepository.patch(id, agentData);
     }
 
-    public async delete(id: number): Promise<boolean> {
-        return await this.agentRepository.delete(id);
+    public static async delete(id: number): Promise<boolean> {
+        return await AgentRepository.delete(id);
     }
 }
