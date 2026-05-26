@@ -34,9 +34,9 @@ export class AgentController {
 
     public static async create(req: Request, res: Response) {
         try {
-            const { name, codename, level, specialty, status } = req.body;
-            if (!name || !codename || !level || !specialty || !status) {
-                return res.status(400).json({ erro: "Todos os campos obrigatórios devem ser preenchidos (name, codename, level, specialty, status)." });
+            const { name, codename, level, specialty, status, email, password } = req.body;
+            if (!name || !codename || !level || !specialty || !status || !email || !password) {
+                return res.status(400).json({ erro: "Todos os campos obrigatórios devem ser preenchidos (name, codename, level, specialty, status, email, password)." });
             }
 
             const agentData = req.body;

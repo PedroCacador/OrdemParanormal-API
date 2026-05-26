@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { Agent, AgentStatus, AgentFilters } from "../model/agentModel";
 import { AgentRepository } from "../repository/agentRepository";
 
@@ -18,7 +19,12 @@ export class AgentService {
         //     }
         // } PROVISÓRIO FI!
 
-        return await AgentRepository.create(agentData);
+        const hashedPassword = await bcrypt.hash(agentData.password, 10);
+
+        return await AgentRepository.create({
+            ...agentData,
+            password: hashedPassword
+        });
     }
 
     public static async update(id: number, agentData: any): Promise<Agent | undefined> {

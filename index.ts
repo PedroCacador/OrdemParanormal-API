@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express, { Request, Response } from "express";
 import cors from "cors";
 import agentRoutes from "./src/routes/agentRoutes";
@@ -5,6 +6,7 @@ import teamRoutes from "./src/routes/teamRoutes";
 import missionRoutes from "./src/routes/missionRoutes";
 import threatRoutes from "./src/routes/threatRoutes";
 import paranormalObjectRoutes from "./src/routes/paranormalObjectRoutes";
+import authRoutes from "./src/routes/authRoutes";
 
 const app = express();
 
@@ -20,6 +22,7 @@ app.use(teamRoutes);
 app.use(missionRoutes);
 app.use(threatRoutes);
 app.use(paranormalObjectRoutes);
+app.use(authRoutes);
 
 const PORT = 3000;
 

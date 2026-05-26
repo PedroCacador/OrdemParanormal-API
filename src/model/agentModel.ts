@@ -6,6 +6,8 @@ export interface Agent {
     level: AgentLevel;
     specialty: AgentSpecialty;
     status: AgentStatus;
+    email: string;
+    password: string;
 }
 
 export enum AgentLevel {

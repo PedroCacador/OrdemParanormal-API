@@ -35,6 +35,11 @@ export class AgentRepository {
         return agent;
     }
 
+    public static async findByEmail(email: string): Promise<Agent | undefined> {
+        const agent = await database("agents").where({ email: email }).first();
+        return agent;
+    }
+
     public static async create(agentData: any): Promise<Agent> {
         const [insertedId] = await database("agents").insert({
             teamId: agentData.teamId,
@@ -42,7 +47,9 @@ export class AgentRepository {
             codename: agentData.codename,
             level: agentData.level,
             specialty: agentData.specialty,
-            status: agentData.status
+            status: agentData.status,
+            email: agentData.email,
+            password: agentData.password
         });
 
         if (insertedId === undefined) {
@@ -65,7 +72,9 @@ export class AgentRepository {
             codename: agentData.codename,
             level: agentData.level,
             specialty: agentData.specialty,
-            status: agentData.status
+            status: agentData.status,
+            email: agentData.email,
+            password: agentData.password
         });
 
         if (rowsUpdated === 0) {

@@ -52,7 +52,7 @@
             "method": "POST",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Karen\",\n  \"codename\": \"Caveira\",\n  \"level\": \"recruit\",\n  \"specialty\": \"combatant\",\n  \"status\": \"active\",\n  \"teamId\": 1\n}",
+              "raw": "{\n  \"name\": \"Karen\",\n  \"codename\": \"Caveira\",\n  \"level\": \"recruit\",\n  \"specialty\": \"combatant\",\n  \"status\": \"active\",\n  \"teamId\": 1,\n  \"email\": \"karen@ordorealitas.com\",\n  \"password\": \"senha123\"\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
@@ -69,7 +69,7 @@
             "method": "PUT",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Karen\",\n  \"codename\": \"Caveira\",\n  \"level\": \"veteran\",\n  \"specialty\": \"combatant\",\n  \"status\": \"active\",\n  \"teamId\": 1\n}",
+              "raw": "{\n  \"name\": \"Karen\",\n  \"codename\": \"Caveira\",\n  \"level\": \"veteran\",\n  \"specialty\": \"combatant\",\n  \"status\": \"active\",\n  \"teamId\": 1,\n  \"email\": \"karen@ordorealitas.com\",\n  \"password\": \"novaSenha456\"\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
@@ -536,6 +536,32 @@
               "variable": [{ "key": "id", "value": "1" }]
             },
             "description": "Remove um objeto paranormal."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "description": "Endpoints públicos de autenticação",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"karen@ordorealitas.com\",\n  \"password\": \"senha123\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": ["{{base_url}}"],
+              "path": ["login"]
+            },
+            "description": "Autentica um agente com email e senha. Retorna um token JWT válido por 1 hora.\n\n**Sucesso (200):**\n```json\n{ \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\" }\n```\n\n**Erro - Campos faltando (400):**\n```json\n{ \"erro\": \"Os campos email e password são obrigatórios.\" }\n```\n\n**Erro - Credenciais inválidas (401):**\n```json\n{ \"erro\": \"Invalid credentials\" }\n```"
           }
         }
       ]
