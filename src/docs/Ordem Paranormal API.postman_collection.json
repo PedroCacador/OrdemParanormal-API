@@ -2,9 +2,19 @@
   "info": {
     "_postman_id": "92a0169c-eeed-4a94-b600-5fc75116d69f",
     "name": "Ordem Paranormal API",
-    "description": "API desenvolvida para simular um sistema interno da agência Ordo Realitas, permitindo o gerenciamento e consulta de informações operacionais como agentes, equipes, missões, ameaças e elementos paranormais.",
+    "description": "API da agência Ordo Realitas. A maioria dos endpoints exige autenticação JWT.\n\n**Fluxo de autenticação:**\n1. `POST /agents` — cadastre um agente (público)\n2. `POST /login` — autentique e copie o token retornado\n3. Cole o token na variável de coleção `token`\n4. Todos os demais requests já enviarão `Authorization: Bearer {{token}}` automaticamente.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{token}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:3000", "type": "string" },
+    { "key": "token", "value": "", "type": "string", "description": "Cole aqui o JWT retornado pelo POST /login" }
+  ],
   "item": [
     {
       "name": "Agents",
@@ -50,6 +60,7 @@
           "name": "Create a new agent",
           "request": {
             "method": "POST",
+            "auth": { "type": "noauth" },
             "body": {
               "mode": "raw",
               "raw": "{\n  \"name\": \"Karen\",\n  \"codename\": \"Caveira\",\n  \"level\": \"recruit\",\n  \"specialty\": \"combatant\",\n  \"status\": \"active\",\n  \"teamId\": 1,\n  \"email\": \"karen@ordorealitas.com\",\n  \"password\": \"senha123\"\n}",
@@ -60,7 +71,7 @@
               "host": ["{{base_url}}"],
               "path": ["agents"]
             },
-            "description": "Cria um novo agente."
+            "description": "🔓 PÚBLICO — Cria um novo agente. Não requer token."
           }
         },
         {
@@ -548,9 +559,7 @@
           "name": "Login",
           "request": {
             "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" }
-            ],
+            "auth": { "type": "noauth" },
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"karen@ordorealitas.com\",\n  \"password\": \"senha123\"\n}",
@@ -561,7 +570,7 @@
               "host": ["{{base_url}}"],
               "path": ["login"]
             },
-            "description": "Autentica um agente com email e senha. Retorna um token JWT válido por 1 hora.\n\n**Sucesso (200):**\n```json\n{ \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\" }\n```\n\n**Erro - Campos faltando (400):**\n```json\n{ \"erro\": \"Os campos email e password são obrigatórios.\" }\n```\n\n**Erro - Credenciais inválidas (401):**\n```json\n{ \"erro\": \"Invalid credentials\" }\n```"
+            "description": "🔓 PÚBLICO — Autentica um agente. Copie o token retornado e cole na variável de coleção `token`.\n\n**Sucesso (200):** `{ \"token\": \"eyJ...\" }`\n**Erro 400:** campos ausentes\n**Erro 401:** credenciais inválidas"
           }
         }
       ]
