@@ -1,5 +1,23 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { AgentLevel } from "../model/agentModel";
+
+export interface JwtPayload {
+    id: number;
+    name: string;
+    email: string;
+    level: AgentLevel;
+    iat?: number;
+    exp?: number;
+}
+
+declare global {
+    namespace Express {
+        interface Request {
+            user?: JwtPayload;
+        }
+    }
+}
 
 export function verifyToken(req: Request, res: Response, next: NextFunction): void {
     const authHeader = req.headers.authorization;
@@ -17,9 +35,9 @@ export function verifyToken(req: Request, res: Response, next: NextFunction): vo
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!);
-        
-        (req as any).user = decoded;
+        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+
+        req.user = decoded;
         next();
     } catch {
         res.status(403).json({ error: "Token inválido." });

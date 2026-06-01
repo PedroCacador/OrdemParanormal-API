@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { Agent, AgentStatus, AgentFilters } from "../model/agentModel";
+import { Agent, AgentStatus, AgentFilters, CreateAgentDTO, UpdateAgentDTO, PatchAgentDTO } from "../model/agentModel";
 import { AgentRepository } from "../repository/agentRepository";
 
 export class AgentService {
@@ -12,7 +12,7 @@ export class AgentService {
         return await AgentRepository.getById(id);
     }
 
-    public static async create(agentData: any): Promise<Agent> {
+    public static async create(agentData: CreateAgentDTO): Promise<Agent> {
         // if (agentData.status === AgentStatus.active) {
         //     if (agentData.teamId === undefined || agentData.teamId === null) {
         //         throw new Error("Violação de Regra: Um agente ativo precisa estar em uma equipe.");
@@ -27,7 +27,7 @@ export class AgentService {
         });
     }
 
-    public static async update(id: number, agentData: any): Promise<Agent | undefined> {
+    public static async update(id: number, agentData: UpdateAgentDTO): Promise<Agent | undefined> {
         // if (agentData.status === AgentStatus.active) {
         //     if (agentData.teamId === undefined || agentData.teamId === null) {
         //         throw new Error("Violação de Regra: Um agente ativo precisa estar em uma equipe.");
@@ -37,8 +37,8 @@ export class AgentService {
         return await AgentRepository.update(id, agentData);
     }
 
-    public static async patch(id: number, agentData: any): Promise<Agent | undefined> {
-        let agentOriginal = await AgentRepository.getById(id);
+    public static async patch(id: number, agentData: PatchAgentDTO): Promise<Agent | undefined> {
+        const agentOriginal = await AgentRepository.getById(id);
 
         if (agentOriginal === undefined) {
             return undefined;

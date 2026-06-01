@@ -10,6 +10,12 @@ export interface Agent {
     password: string;
 }
 
+export type CreateAgentDTO = Omit<Agent, "id">;
+
+export type UpdateAgentDTO = Omit<Agent, "id">;
+
+export type PatchAgentDTO = Partial<Omit<Agent, "id">>;
+
 export enum AgentLevel {
     recruit = "recruit",
     operator = "operator",

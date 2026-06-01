@@ -1,4 +1,4 @@
-import { Agent, AgentFilters } from "../model/agentModel";
+import { Agent, AgentFilters, CreateAgentDTO, UpdateAgentDTO, PatchAgentDTO } from "../model/agentModel";
 import database from "../database";
 
 export class AgentRepository {
@@ -40,7 +40,7 @@ export class AgentRepository {
         return agent;
     }
 
-    public static async create(agentData: any): Promise<Agent> {
+    public static async create(agentData: CreateAgentDTO): Promise<Agent> {
         const [insertedId] = await database("agents").insert({
             teamId: agentData.teamId,
             name: agentData.name,
@@ -65,7 +65,7 @@ export class AgentRepository {
         return newAgent;
     }
 
-    public static async update(id: number, agentData: any): Promise<Agent | undefined> {
+    public static async update(id: number, agentData: UpdateAgentDTO): Promise<Agent | undefined> {
         const rowsUpdated = await database("agents").where({ id: id }).update({
             teamId: agentData.teamId,
             name: agentData.name,
@@ -85,7 +85,7 @@ export class AgentRepository {
         return updatedAgent;
     }
 
-    public static async patch(id: number, agentData: any): Promise<Agent | undefined> {
+    public static async patch(id: number, agentData: PatchAgentDTO): Promise<Agent | undefined> {
         const rowsUpdated = await database("agents").where({ id: id }).update(agentData);
 
         if (rowsUpdated === 0) {

@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "92a0169c-eeed-4a94-b600-5fc75116d69f",
     "name": "Ordem Paranormal API",
-    "description": "API da agência Ordo Realitas. A maioria dos endpoints exige autenticação JWT.\n\n**Fluxo de autenticação:**\n1. `POST /agents` — cadastre um agente (público)\n2. `POST /login` — autentique e copie o token retornado\n3. Cole o token na variável de coleção `token`\n4. Todos os demais requests já enviarão `Authorization: Bearer {{token}}` automaticamente.",
+    "description": "API da agência Ordo Realitas. A maioria dos endpoints exige autenticação JWT.\n\n**Fluxo de autenticação:**\n1. `POST /agents` — cadastre um agente (público)\n2. `POST /login` — autentique e copie o token retornado\n3. Cole o token na variável de coleção `token`\n4. Todos os demais requests já enviarão `Authorization: Bearer {{token}}` automaticamente.\n\n**Sistema de Níveis (AgentLevel):**\nCada agente possui um nível (`level`) que é incluído no payload do JWT. Valores possíveis: `recruit` (padrão), `operator`, `veteran`. Se não informado no cadastro, o banco assume `recruit`.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
@@ -71,7 +71,7 @@
               "host": ["{{base_url}}"],
               "path": ["agents"]
             },
-            "description": "🔓 PÚBLICO — Cria um novo agente. Não requer token."
+            "description": "🔓 PÚBLICO — Cria um novo agente. Não requer token.\n\n**Campo `level` (opcional):** Se não enviado, o banco assume `recruit` como padrão. Valores aceitos: `recruit`, `operator`, `veteran`.\n\n**Exemplo sem level (assume recruit):**\n```json\n{\n  \"name\": \"João\",\n  \"codename\": \"Sombra\",\n  \"specialty\": \"occultist\",\n  \"status\": \"active\",\n  \"email\": \"joao@ordorealitas.com\",\n  \"password\": \"senha123\"\n}\n```"
           }
         },
         {
@@ -98,7 +98,7 @@
             "method": "PATCH",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"status\": \"inactive\"\n}",
+              "raw": "{\n  \"level\": \"operator\"\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
@@ -107,7 +107,7 @@
               "path": ["agents", ":id"],
               "variable": [{ "key": "id", "value": "1" }]
             },
-            "description": "Atualiza parcialmente um agente."
+            "description": "Atualiza parcialmente um agente.\n\n**Exemplo — Promover agente:**\n```json\n{ \"level\": \"veteran\" }\n```\n\n**Exemplo — Alterar status:**\n```json\n{ \"status\": \"onLeave\" }\n```"
           }
         },
         {
@@ -570,7 +570,7 @@
               "host": ["{{base_url}}"],
               "path": ["login"]
             },
-            "description": "🔓 PÚBLICO — Autentica um agente. Copie o token retornado e cole na variável de coleção `token`.\n\n**Sucesso (200):** `{ \"token\": \"eyJ...\" }`\n**Erro 400:** campos ausentes\n**Erro 401:** credenciais inválidas"
+            "description": "🔓 PÚBLICO — Autentica um agente. Copie o token retornado e cole na variável de coleção `token`.\n\n**Payload do JWT:** O token decodificado contém `{ id, name, email, level }`. O campo `level` indica o nível do agente (`recruit`, `operator` ou `veteran`).\n\n**Sucesso (200):** `{ \"token\": \"eyJ...\" }`\n**Erro 400:** campos ausentes\n**Erro 401:** credenciais inválidas"
           }
         }
       ]

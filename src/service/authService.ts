@@ -20,7 +20,8 @@ export class AuthService {
         const payload = {
             id: agent.id,
             name: agent.name,
-            email: agent.email
+            email: agent.email,
+            level: agent.level
         };
 
         const token = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: "1h" });

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AgentService } from "../service/agentService";
-import { AgentFilters } from "../model/agentModel";
+import { AgentFilters, CreateAgentDTO, UpdateAgentDTO, PatchAgentDTO, AgentLevel } from "../model/agentModel";
 
 export class AgentController {
 
@@ -34,23 +34,45 @@ export class AgentController {
 
     public static async create(req: Request, res: Response) {
         try {
-            const { name, codename, level, specialty, status, email, password } = req.body;
-            if (!name || !codename || !level || !specialty || !status || !email || !password) {
-                return res.status(400).json({ erro: "Todos os campos obrigatórios devem ser preenchidos (name, codename, level, specialty, status, email, password)." });
+            const { name, codename, level, specialty, status, email, password, teamId } = req.body;
+            if (!name || !codename || !specialty || !status || !email || !password) {
+                return res.status(400).json({ erro: "Todos os campos obrigatórios devem ser preenchidos (name, codename, specialty, status, email, password)." });
             }
 
-            const agentData = req.body;
+            const agentData: CreateAgentDTO = {
+                name,
+                codename,
+                level: level || AgentLevel.recruit,
+                specialty,
+                status,
+                email,
+                password,
+                teamId
+            };
+
             const newAgent = await AgentService.create(agentData);
             return res.status(201).json(newAgent);
-        } catch (error: any) {
-            return res.status(400).json({ erro: error.message });
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : "Erro desconhecido";
+            return res.status(400).json({ erro: message });
         }
     }
 
     public static async update(req: Request, res: Response) {
         try {
             const id = Number(req.params.id);
-            const agentData = req.body;
+            const { name, codename, level, specialty, status, email, password, teamId } = req.body;
+
+            const agentData: UpdateAgentDTO = {
+                name,
+                codename,
+                level,
+                specialty,
+                status,
+                email,
+                password,
+                teamId
+            };
 
             const updatedAgent = await AgentService.update(id, agentData);
 
@@ -59,15 +81,26 @@ export class AgentController {
             }
 
             return res.json(updatedAgent);
-        } catch (error: any) {
-            return res.status(400).json({ erro: error.message });
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : "Erro desconhecido";
+            return res.status(400).json({ erro: message });
         }
     }
 
     public static async patch(req: Request, res: Response) {
         try {
             const id = Number(req.params.id);
-            const agentData = req.body;
+            const { name, codename, level, specialty, status, email, password, teamId } = req.body;
+
+            const agentData: PatchAgentDTO = {};
+            if (name !== undefined) agentData.name = name;
+            if (codename !== undefined) agentData.codename = codename;
+            if (level !== undefined) agentData.level = level;
+            if (specialty !== undefined) agentData.specialty = specialty;
+            if (status !== undefined) agentData.status = status;
+            if (email !== undefined) agentData.email = email;
+            if (password !== undefined) agentData.password = password;
+            if (teamId !== undefined) agentData.teamId = teamId;
 
             const patchedAgent = await AgentService.patch(id, agentData);
 
@@ -76,8 +109,9 @@ export class AgentController {
             }
 
             return res.json(patchedAgent);
-        } catch (error: any) {
-            return res.status(400).json({ erro: error.message });
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : "Erro desconhecido";
+            return res.status(400).json({ erro: message });
         }
     }
 
@@ -86,13 +120,14 @@ export class AgentController {
             const id = Number(req.params.id);
             const foiRemovido = await AgentService.delete(id);
 
-        if (foiRemovido === false) {
-            return res.status(404).json({ erro: "Agente não encontrado" });
-        }
+            if (foiRemovido === false) {
+                return res.status(404).json({ erro: "Agente não encontrado" });
+            }
 
-        return res.status(204).send();
-        } catch (error: any) {
-            return res.status(400).json({ erro: error.message });
+            return res.status(204).send();
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : "Erro desconhecido";
+            return res.status(400).json({ erro: message });
         }
     }
 }
