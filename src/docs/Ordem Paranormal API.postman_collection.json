@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "92a0169c-eeed-4a94-b600-5fc75116d69f",
     "name": "Ordem Paranormal API",
-    "description": "API da agência Ordo Realitas. A maioria dos endpoints exige autenticação JWT.\n\n**Fluxo de autenticação:**\n1. `POST /agents` — cadastre um agente (público)\n2. `POST /login` — autentique e copie o token retornado\n3. Cole o token na variável de coleção `token`\n4. Todos os demais requests já enviarão `Authorization: Bearer {{token}}` automaticamente.\n\n**Sistema de Níveis (AgentLevel):**\nCada agente possui um nível (`level`) que é incluído no payload do JWT. Valores possíveis: `recruit` (padrão), `operator`, `veteran`. Se não informado no cadastro, o banco assume `recruit`.",
+    "description": "API da agência Ordo Realitas. A maioria dos endpoints exige autenticação JWT.\n\n**Fluxo de autenticação:**\n1. `POST /agents` — cadastre um agente (público)\n2. `POST /login` — autentique e copie o token retornado\n3. Cole o token na variável de coleção `token`\n4. Todos os demais requests já enviarão `Authorization: Bearer {{token}}` automaticamente.\n\n**Sistema de Níveis (AgentLevel) e Autorização:**\nCada agente possui um nível (`level`) que é incluído no payload do JWT. Valores possíveis: `recruit` (padrão), `operator`, `veteran`.\n- **GET**: Permitido para todos os níveis (`recruit`, `operator`, `veteran`).\n- **POST, PUT, PATCH** (exceto /agents): Restrito a `operator` e `veteran`.\n- **DELETE**: Restrito apenas a `veteran`.\n- **Agents (PUT/PATCH)**: Um `recruit` só pode atualizar o próprio perfil. Outros níveis podem atualizar qualquer perfil.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
@@ -60,7 +60,6 @@
           "name": "Create a new agent",
           "request": {
             "method": "POST",
-            "auth": { "type": "noauth" },
             "body": {
               "mode": "raw",
               "raw": "{\n  \"name\": \"Karen\",\n  \"codename\": \"Caveira\",\n  \"level\": \"recruit\",\n  \"specialty\": \"combatant\",\n  \"status\": \"active\",\n  \"teamId\": 1,\n  \"email\": \"karen@ordorealitas.com\",\n  \"password\": \"senha123\"\n}",
@@ -71,7 +70,7 @@
               "host": ["{{base_url}}"],
               "path": ["agents"]
             },
-            "description": "🔓 PÚBLICO — Cria um novo agente. Não requer token.\n\n**Campo `level` (opcional):** Se não enviado, o banco assume `recruit` como padrão. Valores aceitos: `recruit`, `operator`, `veteran`.\n\n**Exemplo sem level (assume recruit):**\n```json\n{\n  \"name\": \"João\",\n  \"codename\": \"Sombra\",\n  \"specialty\": \"occultist\",\n  \"status\": \"active\",\n  \"email\": \"joao@ordorealitas.com\",\n  \"password\": \"senha123\"\n}\n```"
+            "description": "Cria um novo agente. Requer token de um usuário nível Operator ou Veteran.\n\n**Campo `level` (opcional):** Se não enviado, o banco assume `recruit` como padrão. Valores aceitos: `recruit`, `operator`, `veteran`.\n\n**Exemplo sem level (assume recruit):**\n```json\n{\n  \"name\": \"João\",\n  \"codename\": \"Sombra\",\n  \"specialty\": \"occultist\",\n  \"status\": \"active\",\n  \"email\": \"joao@ordorealitas.com\",\n  \"password\": \"senha123\"\n}\n```"
           }
         },
         {
